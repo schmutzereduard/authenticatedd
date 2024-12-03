@@ -3,38 +3,63 @@ package com.resolvedd.authenticatedd.utils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
+import javax.crypto.SecretKey;
+import javax.crypto.spec.SecretKeySpec;
+import java.security.Key;
+import java.util.Base64;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 @Component
 public class JwtUtil {
 
-    private final String SECRET_KEY = "8su7a2OeklHgcwTKRNdbiOiRjkd2ida6PoK2X3s23Mo="; // Replace with a secure key
+    private SecretKey secretKey;
+
+    @PostConstruct
+    public void init() {
+        // Generate a secure key for HS256
+        this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
+    }
 
     // Generate JWT Token
-    public String generateToken(String username, String role) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("role", role); // Add role to token
+    public String generateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
-                .setSubject(username)
+                .setSubject(subject)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 60 * 10)) // 10 hours
-                .signWith(SignatureAlgorithm.HS256, SECRET_KEY)
+                .signWith(secretKey, SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    // Extract all claims from the token
+    public Claims extractAllClaims(String token) {
+        return Jwts.parserBuilder()
+                .setSigningKey(secretKey)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
     }
 
     // Extract username from token
     public String extractUsername(String token) {
-        return extractClaims(token).getSubject();
+        return extractAllClaims(token).getSubject();
     }
 
-    // Extract role from token
-    public String extractRole(String token) {
-        return (String) extractClaims(token).get("role");
+    // Extract roles from token
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> extractRoles(String token) {
+        return (Map<String, Object>) extractAllClaims(token).get("roles");
+    }
+
+    // Extract permissions from token
+    @SuppressWarnings("unchecked")
+    public Map<String, Object> extractPermissions(String token) {
+        return (Map<String, Object>) extractAllClaims(token).get("permissions");
     }
 
     // Validate token
@@ -42,11 +67,7 @@ public class JwtUtil {
         return extractUsername(token).equals(username) && !isTokenExpired(token);
     }
 
-    private Claims extractClaims(String token) {
-        return Jwts.parser().setSigningKey(SECRET_KEY).parseClaimsJws(token).getBody();
-    }
-
     private boolean isTokenExpired(String token) {
-        return extractClaims(token).getExpiration().before(new Date());
+        return extractAllClaims(token).getExpiration().before(new Date());
     }
 }
