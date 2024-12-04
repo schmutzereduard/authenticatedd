@@ -19,6 +19,6 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "role", cascade = ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "role", cascade = ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private List<RolePermission> permissions; // Permissions for this role
 }

@@ -1,7 +1,9 @@
 package com.resolvedd.authenticatedd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -14,7 +16,9 @@ public class UserRole {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
+    @JoinColumn(name = "user_id")
+    @JsonIgnore
+    @ToString.Exclude
     private User user;
 
     @ManyToOne

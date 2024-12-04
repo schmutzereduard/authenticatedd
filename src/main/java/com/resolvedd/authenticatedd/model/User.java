@@ -31,5 +31,5 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-    private List<UserRole> roles; // Roles assigned to the user
+    private List<UserRole> roles;
 }

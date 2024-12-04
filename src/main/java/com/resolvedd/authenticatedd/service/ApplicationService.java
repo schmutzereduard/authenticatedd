@@ -22,7 +22,7 @@ public class ApplicationService {
         return applicationRepository.findAll();
     }
 
-    public Application saveApplication(Application application) {
-        return applicationRepository.save(application);
+    public void saveApplication(Application application) {
+        applicationRepository.save(application);
     }
 }

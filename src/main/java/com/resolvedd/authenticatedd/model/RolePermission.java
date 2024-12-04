@@ -1,8 +1,10 @@
 package com.resolvedd.authenticatedd.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import static jakarta.persistence.GenerationType.IDENTITY;
 
@@ -17,6 +19,8 @@ public class RolePermission {
 
     @ManyToOne
     @JoinColumn(name = "role_id", nullable = false)
+    @JsonIgnore
+    @ToString.Exclude
     private Role role;
 
     @ManyToOne

@@ -8,9 +8,6 @@ import jakarta.annotation.PostConstruct;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 import java.util.Map;
 
@@ -21,12 +18,11 @@ public class JwtUtil {
 
     @PostConstruct
     public void init() {
-        // Generate a secure key for HS256
         this.secretKey = Keys.secretKeyFor(SignatureAlgorithm.HS256);
     }
 
-    // Generate JWT Token
-    public String generateToken(Map<String, Object> claims, String subject) {
+    public String generateToken(String subject, Map<String, Object> claims) {
+
         return Jwts.builder()
                 .setClaims(claims)
                 .setSubject(subject)
@@ -36,8 +32,8 @@ public class JwtUtil {
                 .compact();
     }
 
-    // Extract all claims from the token
     public Claims extractAllClaims(String token) {
+
         return Jwts.parserBuilder()
                 .setSigningKey(secretKey)
                 .build()
@@ -45,24 +41,14 @@ public class JwtUtil {
                 .getBody();
     }
 
-    // Extract username from token
     public String extractUsername(String token) {
         return extractAllClaims(token).getSubject();
     }
 
-    // Extract roles from token
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> extractRoles(String token) {
-        return (Map<String, Object>) extractAllClaims(token).get("roles");
+    public String extract(String token, String claim) {
+        return extractAllClaims(token).get(claim, String.class);
     }
 
-    // Extract permissions from token
-    @SuppressWarnings("unchecked")
-    public Map<String, Object> extractPermissions(String token) {
-        return (Map<String, Object>) extractAllClaims(token).get("permissions");
-    }
-
-    // Validate token
     public boolean validateToken(String token, String username) {
         return extractUsername(token).equals(username) && !isTokenExpired(token);
     }

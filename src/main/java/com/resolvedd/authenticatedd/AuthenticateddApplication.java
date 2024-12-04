@@ -1,10 +1,7 @@
 package com.resolvedd.authenticatedd;
 
 import com.resolvedd.authenticatedd.model.*;
-import com.resolvedd.authenticatedd.service.ApplicationService;
-import com.resolvedd.authenticatedd.service.PermissionService;
-import com.resolvedd.authenticatedd.service.RoleService;
-import com.resolvedd.authenticatedd.service.UserService;
+import com.resolvedd.authenticatedd.service.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,6 +24,7 @@ public class AuthenticateddApplication {
 			RoleService roleService,
 			PermissionService permissionService,
 			UserService userService,
+			UserRoleService userRoleService,
 			PasswordEncoder passwordEncoder) {
 
 		return args -> {
@@ -51,30 +49,28 @@ public class AuthenticateddApplication {
 			Role role_admin = new Role();
 			role_admin.setName("admin");
 
-			roleService.saveRole(role_user);
-			roleService.saveRole(role_admin);
 
-			// Assign Permissions to Roles
-			role_admin.setPermissions(Arrays.asList(
-					new RolePermission(role_admin, permission_view, null),
-					new RolePermission(role_admin, permission_edit, null),
-					new RolePermission(role_admin, permission_delete, null)
-			));
-
-			role_user.setPermissions(Arrays.asList(
-					new RolePermission(role_user, permission_view, null),
-					new RolePermission(role_user, permission_edit, null)
-			));
 
 			// Create Applications
 			Application application_macro = new Application();
 			application_macro.setName("macrocalculator");
 
-			Application application_project = new Application();
-			application_project.setName("projectmanager");
-
 			applicationService.saveApplication(application_macro);
-			applicationService.saveApplication(application_project);
+
+			// Assign Permissions to Roles
+			role_admin.setPermissions(Arrays.asList(
+					new RolePermission(role_admin, permission_view, application_macro),
+					new RolePermission(role_admin, permission_edit, application_macro),
+					new RolePermission(role_admin, permission_delete, application_macro)
+			));
+
+			role_user.setPermissions(Arrays.asList(
+					new RolePermission(role_user, permission_view, application_macro),
+					new RolePermission(role_user, permission_edit, application_macro)
+			));
+
+			roleService.saveRole(role_user);
+			roleService.saveRole(role_admin);
 
 			// Create Users
 			User admin = new User();
@@ -87,14 +83,8 @@ public class AuthenticateddApplication {
 			adminRoleMacro.setApplication(application_macro);
 			adminRoleMacro.setRole(role_admin);
 			adminRoleMacro.setUser(admin);
-
-			UserRole adminRoleProject = new UserRole();
-			adminRoleProject.setApplication(application_project);
-			adminRoleProject.setRole(role_admin);
-			adminRoleProject.setUser(admin);
-
-			userService.assignRoleToUser(admin, role_admin, application_macro);
-			userService.assignRoleToUser(admin, role_admin, application_project);
+			admin.setRoles(List.of(adminRoleMacro));
+			userRoleService.save(adminRoleMacro);
 
 			User user1 = new User();
 			user1.setUsername("john_doe");
@@ -106,14 +96,8 @@ public class AuthenticateddApplication {
 			userRoleMacro.setApplication(application_macro);
 			userRoleMacro.setRole(role_user);
 			userRoleMacro.setUser(user1);
-
-			UserRole userRoleProject = new UserRole();
-			userRoleProject.setApplication(application_project);
-			userRoleProject.setRole(role_user);
-			userRoleProject.setUser(user1);
-
-			userService.assignRoleToUser(user1, role_user, application_macro);
-			userService.assignRoleToUser(user1, role_user, application_project);
+			user1.setRoles(List.of(userRoleMacro));
+			userRoleService.save(userRoleMacro);
 
 			User user2 = new User();
 			user2.setUsername("jane_doe");
@@ -125,8 +109,9 @@ public class AuthenticateddApplication {
 			janeRoleMacro.setApplication(application_macro);
 			janeRoleMacro.setRole(role_user);
 			janeRoleMacro.setUser(user2);
+			user2.setRoles(List.of(janeRoleMacro));
+			userRoleService.save(janeRoleMacro);
 
-			userService.assignRoleToUser(user2, role_user, application_macro);
 
 			// Log the created data
 			System.out.println("Dummy data initialized successfully!");

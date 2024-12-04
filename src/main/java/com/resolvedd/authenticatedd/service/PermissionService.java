@@ -17,7 +17,7 @@ public class PermissionService {
         return permissionRepository.findAll();
     }
 
-    public Permission savePermission(Permission permission) {
-        return permissionRepository.save(permission);
+    public void savePermission(Permission permission) {
+        permissionRepository.save(permission);
     }
 }
