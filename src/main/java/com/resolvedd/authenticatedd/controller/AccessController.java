@@ -2,10 +2,12 @@ package com.resolvedd.authenticatedd.controller;
 
 import com.resolvedd.authenticatedd.model.*;
 import com.resolvedd.authenticatedd.service.ApplicationService;
+import com.resolvedd.authenticatedd.service.RoleService;
 import com.resolvedd.authenticatedd.service.UserService;
 import com.resolvedd.authenticatedd.utils.JwtUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +19,7 @@ public class AccessController {
     private final JwtUtil jwtUtil;
     private final UserService userService;
     private final ApplicationService applicationService;
+    private final RoleService roleService;
 
     @GetMapping("/access")
     public ResponseEntity<?> hasAccess(
@@ -52,5 +55,19 @@ public class AccessController {
         }
 
         return ResponseEntity.ok("Access granted for action: " + action);
+    }
+
+    @PostMapping("/assign-role")
+    public ResponseEntity<?> assignRole(@RequestParam String username, @RequestParam String roleName, @RequestParam String appName) {
+
+        User user = userService.findByUsername(username)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        Role role = roleService.findByName(roleName)
+                .orElseThrow(() -> new IllegalArgumentException("Role not found"));
+        Application application = applicationService.findByName(appName)
+                .orElseThrow(() -> new IllegalArgumentException("Application not found"));
+
+
+        return ResponseEntity.ok("Role assigned successfully");
     }
 }

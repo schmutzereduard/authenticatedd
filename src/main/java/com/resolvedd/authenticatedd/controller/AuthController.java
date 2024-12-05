@@ -8,11 +8,11 @@ import com.resolvedd.authenticatedd.utils.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,25 +29,29 @@ public class AuthController {
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody LoginRequest request) {
 
-        User user = userService.findByUsername(request.getUsername())
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        Optional<User> user = userService.findByUsername(request.getUsername());
+        if (user.isEmpty()) {
+            return ResponseEntity.status(401).body("User [" + request.getUsername() + "] not found");
+        }
 
-        Application application = applicationService.findByName(request.getApplication())
-                .orElseThrow(() -> new RuntimeException("Application not found"));
+        Optional<Application> application = applicationService.findByName(request.getApplication());
+        if (application.isEmpty()) {
+            return ResponseEntity.status(401).body("Application [" + request.getApplication() + "] not found");
+        }
 
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
+        if (!passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
             return ResponseEntity.status(401).body("Invalid username or password");
         }
 
         Map<String, Object> claims = new HashMap<>();
-        claims.put("application", application.getName());
-        String token = jwtUtil.generateToken(user.getUsername(), claims);
+        claims.put("application", application.get().getName());
+        String token = jwtUtil.generateToken(user.get().getUsername(), claims);
 
         return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody User user, @RequestParam String appName) {
+    public ResponseEntity<?> register(@Valid @RequestBody User user) {
 
         Optional<User> existingUser = userService.findByUsername(user.getUsername());
         if (existingUser.isPresent()) {
@@ -57,27 +61,25 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
 
-        // Assign default role for the application
-        Application application = applicationService.findByName(appName)
-                .orElseThrow(() -> new IllegalArgumentException("Application not found"));
-        Role defaultRole = roleService.findByName("USER")
-                .orElseThrow(() -> new IllegalArgumentException("Default role not found"));
+        Role defaultRole = roleService.findByName("guest").get();
 
-        return ResponseEntity.ok("User registered successfully for application: " + appName);
-    }
+        List<UserRole> userRoles = new ArrayList<>();
 
-    // Assign a role to a user for a specific application
-    @PostMapping("/assign-role")
-    public ResponseEntity<?> assignRole(@RequestParam String username, @RequestParam String roleName, @RequestParam String appName) {
+        List<Application> allApplications = applicationService.getAllApplications();
+        for (Application application : allApplications) {
+            UserRole userRole = new UserRole();
+            userRole.setApplication(application);
+            userRole.setRole(defaultRole);
+            userRole.setUser(user);
+            userRoles.add(userRole);
+        }
 
-        User user = userService.findByUsername(username)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
-        Role role = roleService.findByName(roleName)
-                .orElseThrow(() -> new IllegalArgumentException("Role not found"));
-        Application application = applicationService.findByName(appName)
-                .orElseThrow(() -> new IllegalArgumentException("Application not found"));
+        user.setRoles(userRoles);
+        userRoleService.saveAll(userRoles);
 
 
-        return ResponseEntity.ok("Role assigned successfully");
+        return ResponseEntity.ok(
+                "User " + user.getUsername() + " registered as Guest for apps: " + allApplications.stream().map(Application::getName).collect(Collectors.joining())
+        );
     }
 }

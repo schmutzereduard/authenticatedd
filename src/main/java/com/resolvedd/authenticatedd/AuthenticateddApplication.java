@@ -43,12 +43,14 @@ public class AuthenticateddApplication {
 			permissionService.savePermission(permission_delete);
 
 			// Create Roles
+			Role role_guest = new Role();
+			role_guest.setName("guest");
+
 			Role role_user = new Role();
 			role_user.setName("user");
 
 			Role role_admin = new Role();
 			role_admin.setName("admin");
-
 
 
 			// Create Applications
@@ -58,17 +60,24 @@ public class AuthenticateddApplication {
 			applicationService.saveApplication(application_macro);
 
 			// Assign Permissions to Roles
-			role_admin.setPermissions(Arrays.asList(
-					new RolePermission(role_admin, permission_view, application_macro),
-					new RolePermission(role_admin, permission_edit, application_macro),
-					new RolePermission(role_admin, permission_delete, application_macro)
-			));
+
+			role_guest.setPermissions(List.of(
+                    new RolePermission(role_guest, permission_view, application_macro)
+            ));
 
 			role_user.setPermissions(Arrays.asList(
 					new RolePermission(role_user, permission_view, application_macro),
 					new RolePermission(role_user, permission_edit, application_macro)
 			));
 
+			role_admin.setPermissions(Arrays.asList(
+					new RolePermission(role_admin, permission_view, application_macro),
+					new RolePermission(role_admin, permission_edit, application_macro),
+					new RolePermission(role_admin, permission_delete, application_macro)
+			));
+
+
+			roleService.saveRole(role_guest);
 			roleService.saveRole(role_user);
 			roleService.saveRole(role_admin);
 
@@ -112,6 +121,18 @@ public class AuthenticateddApplication {
 			user2.setRoles(List.of(janeRoleMacro));
 			userRoleService.save(janeRoleMacro);
 
+			User guest = new User();
+			guest.setUsername("guest_01");
+			guest.setPassword(passwordEncoder.encode("securepassword"));
+			guest.setEmail("guest_o1@example.com");
+			userService.saveUser(guest);
+
+			UserRole guestRoleMacro = new UserRole();
+			guestRoleMacro.setApplication(application_macro);
+			guestRoleMacro.setRole(role_guest);
+			guestRoleMacro.setUser(guest);
+			guest.setRoles(List.of(guestRoleMacro));
+			userRoleService.save(guestRoleMacro);
 
 			// Log the created data
 			System.out.println("Dummy data initialized successfully!");

@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.stream.Collectors;
@@ -19,16 +20,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     private final UserService userService;
 
     @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         User user = userService.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Collection<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(UserRole::getRole) // Map again to Role
-                .flatMap(role -> role.getPermissions().stream()
-                        .map(RolePermission::getPermission) // Map to Permission
-                        .map(permission -> new SimpleGrantedAuthority(permission.getName()))) // Map to GrantedAuthority
+                .map(UserRole::getRole)
+                .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                 .collect(Collectors.toList());
 
         return org.springframework.security.core.userdetails.User.builder()
