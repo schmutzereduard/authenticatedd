@@ -79,7 +79,10 @@ public class AuthController {
 
 
         return ResponseEntity.ok(
-                "User " + user.getUsername() + " registered as Guest for apps: " + allApplications.stream().map(Application::getName).collect(Collectors.joining())
+                "User "
+                        + user.getUsername()
+                        + " registered as Guest for apps: "
+                        + allApplications.stream().map(Application::getName).collect(Collectors.joining())
         );
     }
 }

@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static jakarta.persistence.CascadeType.ALL;
@@ -31,5 +32,9 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-    private List<UserRole> roles;
+    private List<UserRole> roles = new ArrayList<>();
+
+    public void addRole(UserRole role) {
+        roles.add(role);
+    }
 }
