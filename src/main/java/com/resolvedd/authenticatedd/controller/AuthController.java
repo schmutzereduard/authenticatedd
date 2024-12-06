@@ -77,7 +77,6 @@ public class AuthController {
         user.setRoles(userRoles);
         userRoleService.saveAll(userRoles);
 
-
         return ResponseEntity.ok(
                 "User "
                         + user.getUsername()
