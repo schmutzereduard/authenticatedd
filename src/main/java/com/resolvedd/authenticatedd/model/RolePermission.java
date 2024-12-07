@@ -27,13 +27,12 @@ public class RolePermission {
     @JoinColumn(name = "permission_id", nullable = false)
     private Permission permission;
 
-    @ManyToOne
-    @JoinColumn(name = "application_id", nullable = false)
-    private Application application;
+    @Column(name = "permission_limit", nullable = false)
+    private Integer limit;
 
-    public RolePermission(Role role, Permission permission, Application application) {
+    public RolePermission(Role role, Permission permission, Integer limit) {
         this.role = role;
         this.permission = permission;
-        this.application = application;
+        this.limit = limit;
     }
 }

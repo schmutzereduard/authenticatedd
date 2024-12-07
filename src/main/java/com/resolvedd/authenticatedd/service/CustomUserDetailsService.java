@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
         Collection<GrantedAuthority> authorities = user.getRoles().stream()
-                .map(UserRole::getRole)
+                .map(UserApplicationRole::getRole)
                 .map(role -> new SimpleGrantedAuthority("ROLE_" + role.getName()))
                 .collect(Collectors.toList());
 

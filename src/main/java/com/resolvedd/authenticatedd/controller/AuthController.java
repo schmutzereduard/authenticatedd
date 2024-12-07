@@ -22,7 +22,7 @@ public class AuthController {
     private final UserService userService;
     private final RoleService roleService;
     private final ApplicationService applicationService;
-    private final UserRoleService userRoleService;
+    private final UserApplicationRoleService userApplicationRoleService;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
@@ -61,21 +61,24 @@ public class AuthController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userService.saveUser(user);
 
-        Role defaultRole = roleService.findByName("guest").get();
-
-        List<UserRole> userRoles = new ArrayList<>();
-
         List<Application> allApplications = applicationService.getAllApplications();
-        for (Application application : allApplications) {
-            UserRole userRole = new UserRole();
-            userRole.setApplication(application);
-            userRole.setRole(defaultRole);
-            userRole.setUser(user);
-            userRoles.add(userRole);
+        Optional<Role> optRole = roleService.findByName("guest");
+        if (optRole.isPresent()) {
+            Role defaultRole = optRole.get();
+            List<UserApplicationRole> userRoles = new ArrayList<>();
+
+            for (Application application : allApplications) {
+                UserApplicationRole userRole = new UserApplicationRole();
+                userRole.setApplication(application);
+                userRole.setRole(defaultRole);
+                userRole.setUser(user);
+                userRoles.add(userRole);
+            }
+
+            user.setRoles(userRoles);
+            userApplicationRoleService.saveAll(userRoles);
         }
 
-        user.setRoles(userRoles);
-        userRoleService.saveAll(userRoles);
 
         return ResponseEntity.ok(
                 "User "

@@ -14,12 +14,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/applications")
+@PreAuthorize("hasRole('admin')")
 public class ApplicationsController {
 
     private final ApplicationService applicationService;
 
     @GetMapping("/applications")
-    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<Application>> getApplications() {
         return ResponseEntity.ok(applicationService.getAllApplications());
     }

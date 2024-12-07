@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Table(name = "users")
 @Data
+@NoArgsConstructor
 public class User {
 
     @Id
@@ -32,9 +34,10 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-    private List<UserRole> roles = new ArrayList<>();
+    private List<UserApplicationRole> roles = new ArrayList<>();
 
-    public void addRole(UserRole role) {
-        roles.add(role);
+    public User(String username, String password) {
+        this.username = username;
+        this.password = password;
     }
 }

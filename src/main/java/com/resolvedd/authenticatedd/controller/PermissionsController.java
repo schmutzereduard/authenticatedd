@@ -14,12 +14,12 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/permissions")
+@PreAuthorize("hasRole('admin')")
 public class PermissionsController {
 
     private final PermissionService permissionService;
 
     @GetMapping
-    @PreAuthorize("hasRole('admin')")
     public ResponseEntity<List<Permission>> getAllPermissions() {
         return ResponseEntity.ok(permissionService.getAllPermissions());
     }
