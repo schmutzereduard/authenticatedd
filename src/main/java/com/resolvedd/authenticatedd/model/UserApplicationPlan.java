@@ -14,7 +14,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Table(
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "application_id"})
 )
-public class UserApplicationRole {
+public class UserApplicationPlan {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -31,12 +31,12 @@ public class UserApplicationRole {
     private Application application;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
-    private Role role;
+    @JoinColumn(name = "plan_id", nullable = false)
+    private Plan plan;
 
-    public UserApplicationRole(User user, Application application, Role role) {
+    public UserApplicationPlan(User user, Application application, Plan plan) {
         this.user = user;
         this.application = application;
-        this.role = role;
+        this.plan = plan;
     }
 }

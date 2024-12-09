@@ -1,4 +1,4 @@
-package com.resolvedd.authenticatedd.utils;
+package com.resolvedd.authenticatedd.jwt;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

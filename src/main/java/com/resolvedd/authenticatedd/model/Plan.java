@@ -12,7 +12,7 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Data
 @NoArgsConstructor
-public class Role {
+public class Plan {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -21,10 +21,10 @@ public class Role {
     @Column(unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "role", cascade = ALL, orphanRemoval = true)
-    private List<RolePermission> permissions;
+    @OneToMany(mappedBy = "plan", cascade = ALL, orphanRemoval = true)
+    private List<PlanPermission> permissions;
 
-    public Role(String name) {
+    public Plan(String name) {
         this.name = name;
     }
 }

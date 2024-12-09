@@ -2,9 +2,10 @@ package com.resolvedd.authenticatedd.controller;
 
 import com.resolvedd.authenticatedd.dto.LoginRequest;
 import com.resolvedd.authenticatedd.dto.LoginResponse;
+import com.resolvedd.authenticatedd.dto.RegisterRequest;
 import com.resolvedd.authenticatedd.model.*;
 import com.resolvedd.authenticatedd.service.*;
-import com.resolvedd.authenticatedd.utils.JwtUtil;
+import com.resolvedd.authenticatedd.jwt.JwtUtil;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +13,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -20,9 +20,9 @@ import java.util.stream.Collectors;
 public class AuthController {
 
     private final UserService userService;
-    private final RoleService roleService;
+    private final PlanService planService;
     private final ApplicationService applicationService;
-    private final UserApplicationRoleService userApplicationRoleService;
+    private final UserApplicationPlanService userApplicationPlanService;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
@@ -34,57 +34,53 @@ public class AuthController {
             return ResponseEntity.status(401).body("User [" + request.getUsername() + "] not found");
         }
 
-        Optional<Application> application = applicationService.findByName(request.getApplication());
-        if (application.isEmpty()) {
-            return ResponseEntity.status(401).body("Application [" + request.getApplication() + "] not found");
-        }
-
         if (!passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
             return ResponseEntity.status(401).body("Invalid username or password");
         }
 
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("application", application.get().getName());
-        String token = jwtUtil.generateToken(user.get().getUsername(), claims);
+        String token = jwtUtil.generateToken(user.get().getUsername(), new HashMap<>());
 
         return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody User user) {
+    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
 
-        Optional<User> existingUser = userService.findByUsername(user.getUsername());
+        Optional<User> existingUser = userService.findByUsername(registerRequest.getUsername());
         if (existingUser.isPresent()) {
             return ResponseEntity.badRequest().body("Username already exists");
         }
 
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        User user = new User();
+        user.setUsername(registerRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
+        user.setEmail(registerRequest.getEmail());
         userService.saveUser(user);
 
-        List<Application> allApplications = applicationService.getAllApplications();
-        Optional<Role> optRole = roleService.findByName("guest");
-        if (optRole.isPresent()) {
-            Role defaultRole = optRole.get();
-            List<UserApplicationRole> userRoles = new ArrayList<>();
+        List<UserApplicationPlan> userApplicationPlans = new ArrayList<>();
 
-            for (Application application : allApplications) {
-                UserApplicationRole userRole = new UserApplicationRole();
-                userRole.setApplication(application);
-                userRole.setRole(defaultRole);
-                userRole.setUser(user);
-                userRoles.add(userRole);
+        for (Map.Entry<String, String> applicationEntry : registerRequest.getApplications().entrySet()) {
+
+            String applicationName = applicationEntry.getKey();
+            Optional<Application> optApplication = applicationService.findByName(applicationName);
+            if (optApplication.isEmpty()) {
+                return ResponseEntity.status(404).body("Application [" + applicationName + "] not found");
             }
 
-            user.setRoles(userRoles);
-            userApplicationRoleService.saveAll(userRoles);
+            String applicationPlanName = applicationEntry.getValue();
+            Optional<Plan> optPlan = planService.findByName(applicationPlanName);
+            if (optPlan.isEmpty()) {
+                return ResponseEntity.status(404).body("Plan [" + applicationPlanName + "] not found");
+            }
+
+            userApplicationPlans.add(new UserApplicationPlan(user, optApplication.get(), optPlan.get()));
         }
 
+        user.setApplicationPlans(userApplicationPlans);
+        userApplicationPlanService.saveAll(userApplicationPlans);
 
         return ResponseEntity.ok(
-                "User "
-                        + user.getUsername()
-                        + " registered as Guest for apps: "
-                        + allApplications.stream().map(Application::getName).collect(Collectors.joining())
-        );
+                "User [" + user.getUsername()
+                        + "] registered with selected plans: " + registerRequest.getApplications());
     }
 }

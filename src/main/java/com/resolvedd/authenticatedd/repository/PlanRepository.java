@@ -1,13 +1,13 @@
 package com.resolvedd.authenticatedd.repository;
 
-import com.resolvedd.authenticatedd.model.Role;
+import com.resolvedd.authenticatedd.model.Plan;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
 @Repository
-public interface RoleRepository extends JpaRepository<Role, Long> {
+public interface PlanRepository extends JpaRepository<Plan, Long> {
 
-    Optional<Role> findByName(String name);
+    Optional<Plan> findByName(String name);
 }

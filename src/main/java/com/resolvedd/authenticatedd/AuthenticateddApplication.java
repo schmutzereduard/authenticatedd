@@ -22,14 +22,13 @@ public class AuthenticateddApplication {
 	@Bean
 	CommandLineRunner runner(
 			ApplicationService applicationService,
-			RoleService roleService,
+			PlanService planService,
 			PermissionService permissionService,
 			UserService userService,
-			UserApplicationRoleService userApplicationRoleService,
+			UserApplicationPlanService userApplicationPlanService,
 			PasswordEncoder passwordEncoder) {
 
 		return args -> {
-			// Create Permissions
 			Permission addFood = new Permission("add_food");
 			Permission editFood = new Permission("edit_food");
 			Permission deleteFood = new Permission("delete_food");
@@ -50,82 +49,78 @@ public class AuthenticateddApplication {
 			permissionService.savePermission(editJournal);
 			permissionService.savePermission(deleteJournal);
 
-			// Create Apps
 			List<Application> applications = new ArrayList<>();
 			Application application_macro = new Application("macrocalculator");
 			applicationService.saveApplication(application_macro);
 			applications.add(application_macro);
 
-			// Create Roles
-			Role role_admin = new Role("admin");
-			Role role_guest = new Role("guest");
-			Role role_user = new Role("user");
-			Role role_premium = new Role("premium");
+			Plan admin_plan = new Plan("admin");
+			Plan guest_plan = new Plan("guest");
+			Plan standard_plan = new Plan("standard");
+			Plan premium_plan = new Plan("premium");
 
-			// Assign Permissions to Roles
-			role_admin.setPermissions(Arrays.asList(
-					new RolePermission(role_admin, addFood, 999),
-					new RolePermission(role_admin, addRecipe, 999),
-					new RolePermission(role_admin, addJournal, 999),
-					new RolePermission(role_admin, deleteFood, 1),
-					new RolePermission(role_admin, deleteRecipe, 1),
-					new RolePermission(role_admin, deleteJournal, 1),
-					new RolePermission(role_admin, editFood, 1),
-					new RolePermission(role_admin, editRecipe, 1),
-					new RolePermission(role_admin, editJournal, 1)
+			admin_plan.setPermissions(Arrays.asList(
+					new PlanPermission(admin_plan, addFood, 999),
+					new PlanPermission(admin_plan, addRecipe, 999),
+					new PlanPermission(admin_plan, addJournal, 999),
+					new PlanPermission(admin_plan, deleteFood, 1),
+					new PlanPermission(admin_plan, deleteRecipe, 1),
+					new PlanPermission(admin_plan, deleteJournal, 1),
+					new PlanPermission(admin_plan, editFood, 1),
+					new PlanPermission(admin_plan, editRecipe, 1),
+					new PlanPermission(admin_plan, editJournal, 1)
 			));
 
-			role_guest.setPermissions(List.of(
-                    new RolePermission(role_guest, addFood, 10),
-                    new RolePermission(role_guest, addRecipe, 5),
-                    new RolePermission(role_guest, addJournal, 1),
-                    new RolePermission(role_guest, deleteFood, 1),
-                    new RolePermission(role_guest, deleteRecipe, 1),
-                    new RolePermission(role_guest, deleteJournal, 1),
-                    new RolePermission(role_guest, editFood, 0),
-                    new RolePermission(role_guest, editRecipe, 0),
-                    new RolePermission(role_guest, editJournal, 0)
+			guest_plan.setPermissions(List.of(
+                    new PlanPermission(guest_plan, addFood, 10),
+                    new PlanPermission(guest_plan, addRecipe, 5),
+                    new PlanPermission(guest_plan, addJournal, 1),
+                    new PlanPermission(guest_plan, deleteFood, 1),
+                    new PlanPermission(guest_plan, deleteRecipe, 1),
+                    new PlanPermission(guest_plan, deleteJournal, 1),
+                    new PlanPermission(guest_plan, editFood, 0),
+                    new PlanPermission(guest_plan, editRecipe, 0),
+                    new PlanPermission(guest_plan, editJournal, 0)
             ));
 
-			role_user.setPermissions(Arrays.asList(
-					new RolePermission(role_user, addFood, 50),
-					new RolePermission(role_user,	 addRecipe, 50),
-					new RolePermission(role_user, addJournal, 30),
-					new RolePermission(role_user, deleteFood, 1),
-					new RolePermission(role_user, deleteRecipe, 1),
-					new RolePermission(role_user, deleteJournal, 1),
-					new RolePermission(role_user, editFood, 1),
-					new RolePermission(role_user, editRecipe, 1),
-					new RolePermission(role_user, editJournal, 1)
+			standard_plan.setPermissions(Arrays.asList(
+					new PlanPermission(standard_plan, addFood, 50),
+					new PlanPermission(standard_plan, addRecipe, 50),
+					new PlanPermission(standard_plan, addJournal, 30),
+					new PlanPermission(standard_plan, deleteFood, 1),
+					new PlanPermission(standard_plan, deleteRecipe, 1),
+					new PlanPermission(standard_plan, deleteJournal, 1),
+					new PlanPermission(standard_plan, editFood, 1),
+					new PlanPermission(standard_plan, editRecipe, 1),
+					new PlanPermission(standard_plan, editJournal, 1)
 			));
 
-			role_premium.setPermissions(Arrays.asList(
-					new RolePermission(role_premium, addFood, 500),
-					new RolePermission(role_premium, addRecipe, 500),
-					new RolePermission(role_premium, addJournal, 500),
-					new RolePermission(role_premium, deleteFood, 1),
-					new RolePermission(role_premium, deleteRecipe, 1),
-					new RolePermission(role_premium, deleteJournal, 1),
-					new RolePermission(role_premium, editFood, 1),
-					new RolePermission(role_premium, editRecipe, 1),
-					new RolePermission(role_premium, editJournal, 1)
+			premium_plan.setPermissions(Arrays.asList(
+					new PlanPermission(premium_plan, addFood, 500),
+					new PlanPermission(premium_plan, addRecipe, 500),
+					new PlanPermission(premium_plan, addJournal, 500),
+					new PlanPermission(premium_plan, deleteFood, 1),
+					new PlanPermission(premium_plan, deleteRecipe, 1),
+					new PlanPermission(premium_plan, deleteJournal, 1),
+					new PlanPermission(premium_plan, editFood, 1),
+					new PlanPermission(premium_plan, editRecipe, 1),
+					new PlanPermission(premium_plan, editJournal, 1)
 			));
 
-			roleService.saveRole(role_admin);
-			roleService.saveRole(role_guest);
-			roleService.saveRole(role_user);
-			roleService.saveRole(role_premium);
+			planService.save(admin_plan);
+			planService.save(guest_plan);
+			planService.save(standard_plan);
+			planService.save(premium_plan);
 
-			// Create Users
 			User admin = new User("admin", passwordEncoder.encode("adminpassword"));
 			admin.setEmail("admin@example.com");
 			userService.saveUser(admin);
 
 			applications.forEach(application -> {
-				UserApplicationRole adminRole = new UserApplicationRole(admin, application, role_admin);
-				adminRole.setUser(admin);
-				admin.getRoles().add(adminRole);
-				userApplicationRoleService.save(adminRole);
+				UserApplicationPlan adminPlan = new UserApplicationPlan(admin, application, admin_plan);
+				adminPlan.setUser(admin);
+				admin.getApplicationPlans().add(adminPlan);
+				userApplicationPlanService.save(adminPlan);
 			});
 
 			User guest = new User("guest", passwordEncoder.encode("guestpassword"));
@@ -133,10 +128,10 @@ public class AuthenticateddApplication {
 			userService.saveUser(guest);
 
 			applications.forEach(application -> {
-				UserApplicationRole guestRole = new UserApplicationRole(guest, application, role_guest);
-				guestRole.setUser(guest);
-				guest.getRoles().add(guestRole);
-				userApplicationRoleService.save(guestRole);
+				UserApplicationPlan guestPlan = new UserApplicationPlan(guest, application, guest_plan);
+				guestPlan.setUser(guest);
+				guest.getApplicationPlans().add(guestPlan);
+				userApplicationPlanService.save(guestPlan);
 			});
 
 			User user = new User("user", passwordEncoder.encode("userpassword"));
@@ -144,10 +139,10 @@ public class AuthenticateddApplication {
 			userService.saveUser(user);
 
 			applications.forEach(application -> {
-				UserApplicationRole userRole = new UserApplicationRole(user, application, role_user);
-				userRole.setUser(user);
-				user.getRoles().add(userRole);
-				userApplicationRoleService.save(userRole);
+				UserApplicationPlan standardPlan = new UserApplicationPlan(user, application, standard_plan);
+				standardPlan.setUser(user);
+				user.getApplicationPlans().add(standardPlan);
+				userApplicationPlanService.save(standardPlan);
 			});
 
 			User premium = new User("premium", passwordEncoder.encode("premiumpassword"));
@@ -155,16 +150,11 @@ public class AuthenticateddApplication {
 			userService.saveUser(premium);
 
 			applications.forEach(application -> {
-				UserApplicationRole premiumRole = new UserApplicationRole(premium, application, role_premium);
-				premiumRole.setUser(premium);
-				premium.getRoles().add(premiumRole);
-				userApplicationRoleService.save(premiumRole);
+				UserApplicationPlan premiumPlan = new UserApplicationPlan(premium, application, premium_plan);
+				premiumPlan.setUser(premium);
+				premium.getApplicationPlans().add(premiumPlan);
+				userApplicationPlanService.save(premiumPlan);
 			});
-
-
-
-			// Log the created data
-			System.out.println("Dummy data initialized successfully!");
 		};
 	}
 

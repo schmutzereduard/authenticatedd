@@ -11,17 +11,17 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Data
 @NoArgsConstructor
-public class RolePermission {
+public class PlanPermission {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "role_id", nullable = false)
+    @JoinColumn(name = "plan_id", nullable = false)
     @JsonIgnore
     @ToString.Exclude
-    private Role role;
+    private Plan plan;
 
     @ManyToOne
     @JoinColumn(name = "permission_id", nullable = false)
@@ -30,8 +30,8 @@ public class RolePermission {
     @Column(name = "permission_limit", nullable = false)
     private Integer limit;
 
-    public RolePermission(Role role, Permission permission, Integer limit) {
-        this.role = role;
+    public PlanPermission(Plan plan, Permission permission, Integer limit) {
+        this.plan = plan;
         this.permission = permission;
         this.limit = limit;
     }
