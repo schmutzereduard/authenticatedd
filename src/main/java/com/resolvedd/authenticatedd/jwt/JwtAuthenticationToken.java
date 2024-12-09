@@ -1,4 +1,4 @@
-package com.resolvedd.authenticatedd.authetication;
+package com.resolvedd.authenticatedd.jwt;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
