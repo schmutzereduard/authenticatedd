@@ -46,7 +46,7 @@ public class ProfilesController {
 
         Optional<UserApplicationProfile> optProfile = userApplicationProfileService.findByUserAndApplication(user, application);
         if (optProfile.isEmpty()) {
-            return ResponseEntity.status(404).body("Profile not found for User [" + username + "] and application [" + applicationName + "]");
+            return ResponseEntity.status(404).body("Profile not found for User [" + username + "] and Application [" + applicationName + "]");
         } else {
             return ResponseEntity.ok(optProfile.get());
         }
