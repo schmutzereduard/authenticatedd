@@ -4,10 +4,10 @@ import com.resolvedd.authenticatedd.controller.PlansController;
 import com.resolvedd.authenticatedd.model.Application;
 import com.resolvedd.authenticatedd.model.Plan;
 import com.resolvedd.authenticatedd.model.User;
-import com.resolvedd.authenticatedd.model.UserApplicationPlan;
+import com.resolvedd.authenticatedd.model.UserApplicationProfile;
 import com.resolvedd.authenticatedd.service.ApplicationService;
 import com.resolvedd.authenticatedd.service.PlanService;
-import com.resolvedd.authenticatedd.service.UserApplicationPlanService;
+import com.resolvedd.authenticatedd.service.UserApplicationProfileService;
 import com.resolvedd.authenticatedd.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -30,7 +30,7 @@ public class PlansControllerTest {
 
     @InjectMocks private PlansController plansController;
     @Mock private UserService userService;
-    @Mock private UserApplicationPlanService userApplicationPlanService;
+    @Mock private UserApplicationProfileService userApplicationProfileService;
     @Mock private ApplicationService applicationService;
     @Mock private PlanService planService;
 
@@ -43,7 +43,7 @@ public class PlansControllerTest {
 
         when(userService.findByUsername(user)).thenReturn(Optional.of(new User()));
         when(planService.findByName(plan)).thenReturn(Optional.of(new Plan()));
-        when(userApplicationPlanService.findByUserAndApplication(any(), any())).thenReturn(Optional.of(new UserApplicationPlan()));
+        when(userApplicationProfileService.findByUserAndApplication(any(), any())).thenReturn(Optional.of(new UserApplicationProfile()));
         when(applicationService.findByName(app)).thenReturn(Optional.of(new Application()));
 
         ResponseEntity<?> response = plansController.upgradePlan(user, plan, app);

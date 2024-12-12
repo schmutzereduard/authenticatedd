@@ -25,7 +25,7 @@ public class AuthenticateddApplication {
 			PlanService planService,
 			PermissionService permissionService,
 			UserService userService,
-			UserApplicationPlanService userApplicationPlanService,
+			UserApplicationProfileService userApplicationProfileService,
 			PasswordEncoder passwordEncoder) {
 
 		return args -> {
@@ -117,10 +117,10 @@ public class AuthenticateddApplication {
 			userService.saveUser(admin);
 
 			applications.forEach(application -> {
-				UserApplicationPlan adminPlan = new UserApplicationPlan(admin, application, admin_plan);
-				adminPlan.setUser(admin);
-				admin.getApplicationPlans().add(adminPlan);
-				userApplicationPlanService.save(adminPlan);
+				UserApplicationProfile adminProfile = new UserApplicationProfile(admin, application, admin_plan);
+				adminProfile.setUser(admin);
+				admin.getApplicationProfiles().add(adminProfile);
+				userApplicationProfileService.save(adminProfile);
 			});
 
 			User guest = new User("guest", passwordEncoder.encode("guestpassword"));
@@ -128,10 +128,10 @@ public class AuthenticateddApplication {
 			userService.saveUser(guest);
 
 			applications.forEach(application -> {
-				UserApplicationPlan guestPlan = new UserApplicationPlan(guest, application, guest_plan);
-				guestPlan.setUser(guest);
-				guest.getApplicationPlans().add(guestPlan);
-				userApplicationPlanService.save(guestPlan);
+				UserApplicationProfile guestProfile = new UserApplicationProfile(guest, application, guest_plan);
+				guestProfile.setUser(guest);
+				guest.getApplicationProfiles().add(guestProfile);
+				userApplicationProfileService.save(guestProfile);
 			});
 
 			User user = new User("user", passwordEncoder.encode("userpassword"));
@@ -139,10 +139,12 @@ public class AuthenticateddApplication {
 			userService.saveUser(user);
 
 			applications.forEach(application -> {
-				UserApplicationPlan standardPlan = new UserApplicationPlan(user, application, standard_plan);
-				standardPlan.setUser(user);
-				user.getApplicationPlans().add(standardPlan);
-				userApplicationPlanService.save(standardPlan);
+				MacroCalculatorProfile standardProfile = new MacroCalculatorProfile(
+						user, application, standard_plan,
+						2000, 150, 250, 50);
+				standardProfile.setUser(user);
+				user.getApplicationProfiles().add(standardProfile);
+				userApplicationProfileService.save(standardProfile);
 			});
 
 			User premium = new User("premium", passwordEncoder.encode("premiumpassword"));
@@ -150,10 +152,10 @@ public class AuthenticateddApplication {
 			userService.saveUser(premium);
 
 			applications.forEach(application -> {
-				UserApplicationPlan premiumPlan = new UserApplicationPlan(premium, application, premium_plan);
-				premiumPlan.setUser(premium);
-				premium.getApplicationPlans().add(premiumPlan);
-				userApplicationPlanService.save(premiumPlan);
+				UserApplicationProfile premiumProfile = new UserApplicationProfile(premium, application, premium_plan);
+				premiumProfile.setUser(premium);
+				premium.getApplicationProfiles().add(premiumProfile);
+				userApplicationProfileService.save(premiumProfile);
 			});
 		};
 	}

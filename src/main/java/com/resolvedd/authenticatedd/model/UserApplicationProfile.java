@@ -11,10 +11,11 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 @Entity
 @Data
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "application_id"})
 )
-public class UserApplicationPlan {
+public class UserApplicationProfile {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
@@ -34,7 +35,7 @@ public class UserApplicationPlan {
     @JoinColumn(name = "plan_id", nullable = false)
     private Plan plan;
 
-    public UserApplicationPlan(User user, Application application, Plan plan) {
+    public UserApplicationProfile(User user, Application application, Plan plan) {
         this.user = user;
         this.application = application;
         this.plan = plan;

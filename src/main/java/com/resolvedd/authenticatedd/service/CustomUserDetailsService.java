@@ -26,7 +26,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         User user = userService.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        Collection<GrantedAuthority> authorities = user.getApplicationPlans().stream()
+        Collection<GrantedAuthority> authorities = user.getApplicationProfiles().stream()
                 .map(userApplicationPlan -> new SimpleGrantedAuthority(userApplicationPlan.getPlan().getName() + "_" + userApplicationPlan.getApplication().getName()))
                 .collect(Collectors.toList());
 

@@ -3,10 +3,10 @@ package com.resolvedd.authenticatedd.controller;
 import com.resolvedd.authenticatedd.model.Application;
 import com.resolvedd.authenticatedd.model.Plan;
 import com.resolvedd.authenticatedd.model.User;
-import com.resolvedd.authenticatedd.model.UserApplicationPlan;
+import com.resolvedd.authenticatedd.model.UserApplicationProfile;
 import com.resolvedd.authenticatedd.service.ApplicationService;
 import com.resolvedd.authenticatedd.service.PlanService;
-import com.resolvedd.authenticatedd.service.UserApplicationPlanService;
+import com.resolvedd.authenticatedd.service.UserApplicationProfileService;
 import com.resolvedd.authenticatedd.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class PlansController {
 
     private final UserService userService;
-    private final UserApplicationPlanService userApplicationPlanService;
+    private final UserApplicationProfileService userApplicationProfileService;
     private final ApplicationService applicationService;
     private final PlanService planService;
 
@@ -56,15 +56,15 @@ public class PlansController {
         }
         Application application = applicationOpt.get();
 
-        Optional<UserApplicationPlan> userApplicationPlanOpt = userApplicationPlanService.findByUserAndApplication(user, application);
-        if (userApplicationPlanOpt.isPresent()) {
-            UserApplicationPlan userApplicationPlan = userApplicationPlanOpt.get();
-            userApplicationPlan.setPlan(plan);
-            userApplicationPlanService.save(userApplicationPlan);
+        Optional<UserApplicationProfile> userApplicationProfileOpt = userApplicationProfileService.findByUserAndApplication(user, application);
+        if (userApplicationProfileOpt.isPresent()) {
+            UserApplicationProfile userApplicationProfile = userApplicationProfileOpt.get();
+            userApplicationProfile.setPlan(plan);
+            userApplicationProfileService.save(userApplicationProfile);
             return ResponseEntity.ok("Plan [" + planName + "] updated for user [" + username + "] in application [" + appName + "]");
         } else {
-            UserApplicationPlan newUserApplicationPlan = new UserApplicationPlan(user, application, plan);
-            userApplicationPlanService.save(newUserApplicationPlan);
+            UserApplicationProfile newUserApplicationProfile = new UserApplicationProfile(user, application, plan);
+            userApplicationProfileService.save(newUserApplicationProfile);
             return ResponseEntity.ok("Plan [" + planName + "] assigned to user [" + username + "] in application [" + appName + "]");
         }
     }

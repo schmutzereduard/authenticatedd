@@ -34,7 +34,7 @@ public class User {
     private String email;
 
     @OneToMany(mappedBy = "user", cascade = ALL, orphanRemoval = true)
-    private List<UserApplicationPlan> applicationPlans = new ArrayList<>();
+    private List<UserApplicationProfile> applicationProfiles = new ArrayList<>();
 
     public User(String username, String password) {
         this.username = username;

@@ -9,7 +9,7 @@ import com.resolvedd.authenticatedd.model.Plan;
 import com.resolvedd.authenticatedd.model.User;
 import com.resolvedd.authenticatedd.service.ApplicationService;
 import com.resolvedd.authenticatedd.service.PlanService;
-import com.resolvedd.authenticatedd.service.UserApplicationPlanService;
+import com.resolvedd.authenticatedd.service.UserApplicationProfileService;
 import com.resolvedd.authenticatedd.service.UserService;
 import com.resolvedd.authenticatedd.jwt.JwtUtil;
 import org.junit.jupiter.api.Test;
@@ -39,7 +39,7 @@ class AuthControllerTest {
     @InjectMocks private AuthController authController;
     @Mock private JwtUtil jwtUtil;
     @Mock private UserService userService;
-    @Mock private UserApplicationPlanService userApplicationPlanService;
+    @Mock private UserApplicationProfileService userApplicationProfileService;
     @Mock private ApplicationService applicationService;
     @Mock private PlanService planService;
     @Mock private PasswordEncoder passwordEncoder;
@@ -108,7 +108,7 @@ class AuthControllerTest {
         when(applicationService.findByName(any())).thenReturn(Optional.of(new Application()));
         when(planService.findByName(any())).thenReturn(Optional.of(new Plan()));
         when(passwordEncoder.encode(registerRequest.getPassword())).thenReturn("encodedPassword");
-        doNothing().when(userApplicationPlanService).saveAll(anyList());
+        doNothing().when(userApplicationProfileService).saveAll(anyList());
 
         ResponseEntity<?> response = authController.register(registerRequest);
 

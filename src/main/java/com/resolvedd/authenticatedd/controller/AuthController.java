@@ -22,25 +22,26 @@ public class AuthController {
     private final UserService userService;
     private final PlanService planService;
     private final ApplicationService applicationService;
-    private final UserApplicationPlanService userApplicationPlanService;
+    private final UserApplicationProfileService userApplicationProfileService;
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/authenticate")
     public ResponseEntity<?> authenticate(@RequestBody LoginRequest request) {
 
-        Optional<User> user = userService.findByUsername(request.getUsername());
-        if (user.isEmpty()) {
+        Optional<User> optUser = userService.findByUsername(request.getUsername());
+        if (optUser.isEmpty()) {
             return ResponseEntity.status(401).body("User [" + request.getUsername() + "] not found");
         }
 
-        if (!passwordEncoder.matches(request.getPassword(), user.get().getPassword())) {
+        User user = optUser.get();
+        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             return ResponseEntity.status(401).body("Invalid username or password");
         }
 
-        String token = jwtUtil.generateToken(user.get().getUsername(), new HashMap<>());
+        String token = jwtUtil.generateToken(user.getUsername(), new HashMap<>());
 
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(new LoginResponse(user.getUsername(), token));
     }
 
     @PostMapping("/register")
@@ -57,7 +58,7 @@ public class AuthController {
         user.setEmail(registerRequest.getEmail());
         userService.saveUser(user);
 
-        List<UserApplicationPlan> userApplicationPlans = new ArrayList<>();
+        List<UserApplicationProfile> userApplicationProfiles = new ArrayList<>();
 
         for (Map.Entry<String, String> applicationEntry : registerRequest.getApplications().entrySet()) {
 
@@ -73,11 +74,11 @@ public class AuthController {
                 return ResponseEntity.status(404).body("Plan [" + applicationPlanName + "] not found");
             }
 
-            userApplicationPlans.add(new UserApplicationPlan(user, optApplication.get(), optPlan.get()));
+            userApplicationProfiles.add(new UserApplicationProfile(user, optApplication.get(), optPlan.get()));
         }
 
-        user.setApplicationPlans(userApplicationPlans);
-        userApplicationPlanService.saveAll(userApplicationPlans);
+        user.setApplicationProfiles(userApplicationProfiles);
+        userApplicationProfileService.saveAll(userApplicationProfiles);
 
         return ResponseEntity.ok(
                 "User [" + user.getUsername()
