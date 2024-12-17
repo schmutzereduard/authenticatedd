@@ -45,7 +45,7 @@ class AuthControllerTest {
     @Mock private PasswordEncoder passwordEncoder;
 
     @Test
-    void testAuthenticateUserSuccess() {
+    void testLoginUserSuccess() {
 
         User user = new User();
         user.setUsername("john_doe");
@@ -61,33 +61,33 @@ class AuthControllerTest {
         when(passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())).thenReturn(true);
         when(jwtUtil.generateToken(anyString(), anyMap())).thenReturn(mockToken);
 
-        ResponseEntity<?> response = authController.authenticate(loginRequest);
+        ResponseEntity<?> response = authController.login(loginRequest);
 
         assertEquals(OK, response.getStatusCode());
         assertEquals(mockToken, ((LoginResponse) Objects.requireNonNull(response.getBody())).getToken());
     }
 
     @Test
-    void testAuthenticateUserFail() {
+    void testLoginUserFail() {
 
         when(userService.findByUsername(any())).thenReturn(Optional.of(new User()));
         when(passwordEncoder.matches(any(), any())).thenReturn(false);
 
-        ResponseEntity<?> response = authController.authenticate(new LoginRequest());
+        ResponseEntity<?> response = authController.login(new LoginRequest());
 
         assertEquals(UNAUTHORIZED, response.getStatusCode());
         assertEquals("Invalid username or password", response.getBody());
     }
 
     @Test
-    void testAuthenticateUserNotFound() {
+    void testLoginUserNotFound() {
 
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername("john_doe");
 
         when(userService.findByUsername(loginRequest.getUsername())).thenReturn(Optional.empty());
 
-        ResponseEntity<?> response = authController.authenticate(loginRequest);
+        ResponseEntity<?> response = authController.login(loginRequest);
 
         assertEquals(UNAUTHORIZED, response.getStatusCode());
         assertEquals("User [" + loginRequest.getUsername() + "] not found", Objects.requireNonNull(response.getBody()).toString());

@@ -26,8 +26,20 @@ public class AuthController {
     private final JwtUtil jwtUtil;
     private final PasswordEncoder passwordEncoder;
 
-    @PostMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@RequestBody LoginRequest request) {
+    @GetMapping("/authenticate")
+    public ResponseEntity<?> authenticate(@RequestParam String username, @RequestHeader("Authorization") String authHeader) {
+
+        String token = authHeader.replace("Bearer ", "");
+
+        if (jwtUtil.validateToken(token, username)) {
+            return ResponseEntity.ok(null);
+        } else {
+            return ResponseEntity.status(401).body("Invalid token!");
+        }
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@RequestBody LoginRequest request) {
 
         Optional<User> optUser = userService.findByUsername(request.getUsername());
         if (optUser.isEmpty()) {
