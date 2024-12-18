@@ -27,11 +27,11 @@ import java.util.Objects;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
-import static org.springframework.http.HttpStatus.OK;
-import static org.springframework.http.HttpStatus.UNAUTHORIZED;
+import static org.springframework.http.HttpStatus.*;
 
 @ExtendWith(MockitoExtension.class)
 class AuthControllerTest {
@@ -45,7 +45,36 @@ class AuthControllerTest {
     @Mock private PasswordEncoder passwordEncoder;
 
     @Test
-    void testLoginUserSuccess() {
+    void authenticateSuccess() {
+
+        String username = "user";
+        String token = "token";
+
+        when(jwtUtil.validateToken(token, username)).thenReturn(true);
+
+        ResponseEntity<?> response = authController.authenticate(username, token);
+
+        assertEquals(OK, response.getStatusCode());
+        assertNull(response.getBody());
+    }
+
+    @Test
+    void authenticateFail() {
+
+        String username = "user";
+        String token = "token";
+
+        when(jwtUtil.validateToken(token, username)).thenReturn(false);
+
+        ResponseEntity<?> response = authController.authenticate(username, token);
+
+        assertEquals(UNAUTHORIZED, response.getStatusCode());
+        assertEquals("Invalid token !", response.getBody());
+
+    }
+
+    @Test
+    void loginSuccess() {
 
         User user = new User();
         user.setUsername("john_doe");
@@ -68,7 +97,7 @@ class AuthControllerTest {
     }
 
     @Test
-    void testLoginUserFail() {
+    void loginFail() {
 
         when(userService.findByUsername(any())).thenReturn(Optional.of(new User()));
         when(passwordEncoder.matches(any(), any())).thenReturn(false);
@@ -80,7 +109,7 @@ class AuthControllerTest {
     }
 
     @Test
-    void testLoginUserNotFound() {
+    void loginUserNotFound() {
 
         LoginRequest loginRequest = new LoginRequest();
         loginRequest.setUsername("john_doe");
@@ -94,16 +123,9 @@ class AuthControllerTest {
     }
 
     @Test
-    void testRegisterUserSuccess() {
+    void registerSuccess() {
 
-        Map<String, String> applicationPlans = new HashMap<>();
-        applicationPlans.put("macrocalculator", "standard");
-
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setUsername("john_doe");
-        registerRequest.setPassword("securepassword");
-        registerRequest.setEmail("john_doe@example.com");
-        registerRequest.setApplications(applicationPlans);
+        RegisterRequest registerRequest = getRegisterRequest();
 
         when(applicationService.findByName(any())).thenReturn(Optional.of(new Application()));
         when(planService.findByName(any())).thenReturn(Optional.of(new Plan()));
@@ -113,23 +135,49 @@ class AuthControllerTest {
         ResponseEntity<?> response = authController.register(registerRequest);
 
         assertEquals(OK, response.getStatusCode());
-        assertEquals("User [john_doe] registered with selected plans: {macrocalculator=standard}", Objects.requireNonNull(response.getBody()).toString());
+        assertEquals("User [" + registerRequest.getUsername() + "] registered with selected plans: " + registerRequest.getApplications(), Objects.requireNonNull(response.getBody()).toString());
     }
 
     @Test
-    void testRegisterUserAlreadyExists() {
+    void registerUserAlreadyExists() {
 
-        RegisterRequest registerRequest = new RegisterRequest();
-        registerRequest.setUsername("john_doe");
-        registerRequest.setPassword("securepassword");
-        registerRequest.setEmail("john_doe@example.com");
-        registerRequest.setApplications(new HashMap<>());
+        RegisterRequest registerRequest = getRegisterRequest();
 
-        when(userService.findByUsername("john_doe")).thenReturn(Optional.of(new User()));
+        when(userService.findByUsername(registerRequest.getUsername())).thenReturn(Optional.of(new User()));
 
         ResponseEntity<?> response = authController.register(registerRequest);
 
         assertEquals(HttpStatus.BAD_REQUEST, response.getStatusCode());
         assertEquals("Username already exists", response.getBody());
+    }
+
+    @Test
+    void registerApplicationNotFound() {
+
+        RegisterRequest registerRequest = getRegisterRequest();
+
+        when(applicationService.findByName(any())).thenReturn(Optional.empty());
+
+        ResponseEntity<?> response = authController.register(registerRequest);
+
+        assertEquals(NOT_FOUND, response.getStatusCode());
+        assertEquals("Application [macrocalculator] not found", Objects.requireNonNull(response.getBody()).toString());
+    }
+
+    private static RegisterRequest getRegisterRequest() {
+
+        String applicationName = "macrocalculator";
+        String planName = "standard";
+        String username = "john_doe";
+
+        Map<String, String> applicationPlans = new HashMap<>();
+        applicationPlans.put(applicationName, planName);
+
+        RegisterRequest registerRequest = new RegisterRequest();
+        registerRequest.setUsername(username);
+        registerRequest.setPassword("securepassword");
+        registerRequest.setEmail("john_doe@example.com");
+        registerRequest.setApplications(applicationPlans);
+        return registerRequest;
     }
 }

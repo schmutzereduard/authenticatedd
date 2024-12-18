@@ -35,68 +35,68 @@ public class PlansControllerTest {
     @Mock private PlanService planService;
 
     @Test
-    void testUpgradePlanSuccess() {
+    void upgradePlanSuccess() {
 
-        String user = "john_doe";
-        String plan = "premium";
-        String app = "macrocalculator";
+        String username = "john_doe";
+        String planName = "premium";
+        String applicationName = "macrocalculator";
 
-        when(userService.findByUsername(user)).thenReturn(Optional.of(new User()));
-        when(planService.findByName(plan)).thenReturn(Optional.of(new Plan()));
+        when(userService.findByUsername(username)).thenReturn(Optional.of(new User()));
+        when(planService.findByName(planName)).thenReturn(Optional.of(new Plan()));
         when(userApplicationProfileService.findByUserAndApplication(any(), any())).thenReturn(Optional.of(new UserApplicationProfile()));
-        when(applicationService.findByName(app)).thenReturn(Optional.of(new Application()));
+        when(applicationService.findByName(applicationName)).thenReturn(Optional.of(new Application()));
 
-        ResponseEntity<?> response = plansController.upgradePlan(user, plan, app);
+        ResponseEntity<?> response = plansController.upgradePlan(username, planName, applicationName);
 
         assertEquals(OK, response.getStatusCode());
-        assertEquals("Plan [premium] updated for user [john_doe] in application [macrocalculator]", response.getBody());
+        assertEquals("Plan [" + planName + "] updated for user [" + username + "] in application [" + applicationName + "]", response.getBody());
     }
 
     @Test
-    void testUpgradePlanUserNotFound() {
+    void upgradePlanUserNotFound() {
 
-        String user = "john_doe";
-        String plan = "premium";
-        String app = "macrocalcualtor";
+        String username = "john_doe";
+        String planName = "premium";
+        String applicationName = "macrocalcualtor";
 
-        when(userService.findByUsername(user)).thenReturn(Optional.empty());
+        when(userService.findByUsername(username)).thenReturn(Optional.empty());
 
-        ResponseEntity<?> response = plansController.upgradePlan(user, plan, app);
+        ResponseEntity<?> response = plansController.upgradePlan(username, planName, applicationName);
 
         assertEquals(NOT_FOUND, response.getStatusCode());
-        assertEquals("User [john_doe] not found", response.getBody());
+        assertEquals("User [" + username + "] not found", response.getBody());
     }
 
     @Test
-    void testUpgradePlanPlanNotFound() {
+    void upgradePlanPlanNotFound() {
 
-        String user = "john_doe";
-        String plan = "super_premium";
-        String macrocalculator = "myApp";
+        String username = "john_doe";
+        String planName = "super_premium";
+        String applicationName = "macrocalculator";
 
-        when(userService.findByUsername(user)).thenReturn(Optional.of(new User()));
-        when(planService.findByName(plan)).thenReturn(Optional.empty());
+        when(userService.findByUsername(username)).thenReturn(Optional.of(new User()));
+        when(planService.findByName(planName)).thenReturn(Optional.empty());
 
-        ResponseEntity<?> response = plansController.upgradePlan(user, plan, macrocalculator);
+        ResponseEntity<?> response = plansController.upgradePlan(username, planName, applicationName);
 
         assertEquals(NOT_FOUND, response.getStatusCode());
-        assertTrue(Objects.requireNonNull(response.getBody()).toString().startsWith("Plan [super_premium] not found"));
+        assertTrue(Objects.requireNonNull(response.getBody()).toString().startsWith("Plan [" + planName + "] not found"));
     }
 
     @Test
-    void testUpgradePlanApplicationNotFound() {
+    void upgradePlanApplicationNotFound() {
 
-        String user = "john_doe";
-        String plan = "premium";
-        String app = "macro";
+        String username = "john_doe";
+        String planName = "premium";
+        String applicationName = "macro";
 
-        when(userService.findByUsername(user)).thenReturn(Optional.of(new User()));
-        when(planService.findByName(plan)).thenReturn(Optional.of(new Plan()));
-        when(applicationService.findByName(app)).thenReturn(Optional.empty());
+        when(userService.findByUsername(username)).thenReturn(Optional.of(new User()));
+        when(planService.findByName(planName)).thenReturn(Optional.of(new Plan()));
+        when(applicationService.findByName(applicationName)).thenReturn(Optional.empty());
 
-        ResponseEntity<?> response = plansController.upgradePlan(user, plan, app);
+        ResponseEntity<?> response = plansController.upgradePlan(username, planName, applicationName);
 
         assertEquals(NOT_FOUND, response.getStatusCode());
-        assertTrue(Objects.requireNonNull(response.getBody()).toString().startsWith("Application [macro] not found"));
+        assertTrue(Objects.requireNonNull(response.getBody()).toString().startsWith("Application [" + applicationName + "] not found"));
     }
 }

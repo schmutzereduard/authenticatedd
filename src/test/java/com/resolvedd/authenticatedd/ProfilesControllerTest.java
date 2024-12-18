@@ -49,37 +49,44 @@ public class ProfilesControllerTest {
     }
 
     @Test
-    void getUserProfileMissingUser() {
+    void getUserProfileUserNotFound() {
 
-        when(jwtUtil.extractUsername(any())).thenReturn("someuser");
+        String username = "someuser";
+
+        when(jwtUtil.extractUsername(any())).thenReturn(username);
 
         ResponseEntity<?> response = profilesController.getUserProfile("","");
 
         assertEquals(NOT_FOUND, response.getStatusCode());
-        assertEquals("User [someuser] not found", response.getBody());
+        assertEquals("User [" + username + "] not found", response.getBody());
     }
 
     @Test
-    void getUserMissingApp() {
+    void getUserProfileApllicationNotFound() {
+
+        String applicationName = "someapp";
 
         when(userService.findByUsername(any())).thenReturn(Optional.of(new User()));
 
-        ResponseEntity<?> response = profilesController.getUserProfile("someapp", "");
+        ResponseEntity<?> response = profilesController.getUserProfile(applicationName, "");
 
         assertEquals(NOT_FOUND, response.getStatusCode());
-        assertEquals("Application [someapp] not found", response.getBody());
+        assertEquals("Application [" + applicationName + "] not found", response.getBody());
     }
 
     @Test
-    void getUserMissingProfile() {
+    void getUserProfileProfileNotFound() {
 
-        when(jwtUtil.extractUsername(any())).thenReturn("someuser");
-        when(userService.findByUsername(any())).thenReturn(Optional.of(new User()));
-        when(applicationService.findByName(any())).thenReturn(Optional.of(new Application()));
+        String username = "someuser";
+        String applicationName = "someapp";
 
-        ResponseEntity<?> response = profilesController.getUserProfile("someapp", "");
+        when(jwtUtil.extractUsername(any())).thenReturn(username);
+        when(userService.findByUsername(username)).thenReturn(Optional.of(new User()));
+        when(applicationService.findByName(applicationName)).thenReturn(Optional.of(new Application()));
+
+        ResponseEntity<?> response = profilesController.getUserProfile(applicationName, "");
 
         assertEquals(NOT_FOUND, response.getStatusCode());
-        assertEquals("Profile not found for User [someuser] and Application [someapp]", response.getBody());
+        assertEquals("Profile not found for User [" + username + "] and Application [" + applicationName + "]", response.getBody());
     }
 }
