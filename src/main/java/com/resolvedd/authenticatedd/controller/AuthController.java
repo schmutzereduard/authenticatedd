@@ -1,5 +1,6 @@
 package com.resolvedd.authenticatedd.controller;
 
+import com.resolvedd.authenticatedd.dto.AuthenticationResponse;
 import com.resolvedd.authenticatedd.dto.LoginRequest;
 import com.resolvedd.authenticatedd.dto.LoginResponse;
 import com.resolvedd.authenticatedd.dto.RegisterRequest;
@@ -27,19 +28,20 @@ public class AuthController {
     private final PasswordEncoder passwordEncoder;
 
     @GetMapping("/authenticate")
-    public ResponseEntity<?> authenticate(
-            @RequestParam String username,
-            @RequestHeader("Authorization") String authHeader
-    ) {
+    public ResponseEntity<?> authenticate(@RequestHeader("Authorization") String authHeader) {
 
+        // Extract the token from the Authorization header
         String token = authHeader.replace("Bearer ", "");
+        String username = jwtUtil.extractUsername(token);
 
+        // Validate the token and return the response
         if (jwtUtil.validateToken(token, username)) {
-            return ResponseEntity.ok(null);
+            return ResponseEntity.ok(new AuthenticationResponse(username));
         } else {
             return ResponseEntity.status(401).body("Invalid token !");
         }
     }
+
 
     @PostMapping("/login")
     public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
@@ -56,7 +58,7 @@ public class AuthController {
 
         String token = jwtUtil.generateToken(user.getUsername(), new HashMap<>());
 
-        return ResponseEntity.ok(new LoginResponse(user.getUsername(), token));
+        return ResponseEntity.ok(new LoginResponse(token));
     }
 
     @PostMapping("/register")

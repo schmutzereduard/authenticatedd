@@ -1,6 +1,7 @@
 package com.resolvedd.authenticatedd;
 
 import com.resolvedd.authenticatedd.controller.AuthController;
+import com.resolvedd.authenticatedd.dto.AuthenticationResponse;
 import com.resolvedd.authenticatedd.dto.LoginRequest;
 import com.resolvedd.authenticatedd.dto.LoginResponse;
 import com.resolvedd.authenticatedd.dto.RegisterRequest;
@@ -50,12 +51,13 @@ class AuthControllerTest {
         String username = "user";
         String token = "token";
 
+        when(jwtUtil.extractUsername(token)).thenReturn(username);
         when(jwtUtil.validateToken(token, username)).thenReturn(true);
 
-        ResponseEntity<?> response = authController.authenticate(username, token);
+        ResponseEntity<?> response = authController.authenticate(token);
 
         assertEquals(OK, response.getStatusCode());
-        assertNull(response.getBody());
+        assertEquals(username, ((AuthenticationResponse) Objects.requireNonNull(response.getBody())).getUsername());
     }
 
     @Test
@@ -64,9 +66,10 @@ class AuthControllerTest {
         String username = "user";
         String token = "token";
 
+        when(jwtUtil.extractUsername(token)).thenReturn(username);
         when(jwtUtil.validateToken(token, username)).thenReturn(false);
 
-        ResponseEntity<?> response = authController.authenticate(username, token);
+        ResponseEntity<?> response = authController.authenticate(token);
 
         assertEquals(UNAUTHORIZED, response.getStatusCode());
         assertEquals("Invalid token !", response.getBody());
