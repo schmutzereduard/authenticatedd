@@ -5,9 +5,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class AuthenticationResponse {
+public class Credentials {
 
     private String username;
-    private String token;
-    private long expiresAt;
+    private String password;
 }
+

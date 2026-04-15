@@ -1,19 +1,19 @@
 package com.resolvedd.authenticatedd.controller;
 
-import com.resolvedd.authenticatedd.dto.AuthenticationResponse;
-import com.resolvedd.authenticatedd.dto.LoginRequest;
-import com.resolvedd.authenticatedd.dto.LoginResponse;
-import com.resolvedd.authenticatedd.dto.RegisterRequest;
-import com.resolvedd.authenticatedd.model.*;
+import com.resolvedd.authenticatedd.dto.*;
+import com.resolvedd.authenticatedd.exception.*;
 import com.resolvedd.authenticatedd.service.*;
-import com.resolvedd.authenticatedd.jwt.JwtUtil;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import static com.resolvedd.authenticatedd.constants.Constants.CREATED;
+import static com.resolvedd.authenticatedd.constants.Constants.SPACE;
+import static com.resolvedd.authenticatedd.constants.ExceptionConstants.*;
+import static com.resolvedd.authenticatedd.utils.StringUtils.buildString;
+import static com.resolvedd.authenticatedd.utils.StringUtils.isNullOrEmpty;
+import static com.resolvedd.authenticatedd.utils.TokenUtils.*;
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,84 +21,66 @@ import java.util.*;
 public class AuthController {
 
     private final UserService userService;
-    private final PlanService planService;
-    private final ApplicationService applicationService;
-    private final UserApplicationProfileService userApplicationProfileService;
-    private final JwtUtil jwtUtil;
-    private final PasswordEncoder passwordEncoder;
+    private final TokenService tokenService;
 
-    @GetMapping("/authenticate")
-    public ResponseEntity<?> authenticate(@RequestHeader("Authorization") String authHeader) {
+    @GetMapping("/isAuthorized")
+    public ResponseEntity<AuthenticationResponse> isAuthorized(@RequestHeader(AUTHORIZATION) String authHeader) {
 
-        // Extract the token from the Authorization header
-        String token = authHeader.replace("Bearer ", "");
-        String username = jwtUtil.extractUsername(token);
+        String token = getToken(authHeader);
+        if (isNullOrEmpty(token))
+            throw new InvalidTokenException(INVALID_TOKEN_MESSAGE);
 
-        // Validate the token and return the response
-        if (jwtUtil.validateToken(token, username)) {
-            return ResponseEntity.ok(new AuthenticationResponse(username));
-        } else {
-            return ResponseEntity.status(401).body("Invalid token !");
-        }
+        TokenDTO tokenDTO = tokenService.getByToken(token);
+        if (tokenDTO == null)
+            throw new InvalidTokenException(INVALID_TOKEN_MESSAGE);
+
+        if (!isTokenValid(tokenDTO.getExpiresAt()))
+            throw new ExpiredTokenException(EXPIRED_TOKEN_MESSAGE);
+
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+        authenticationResponse.setUsername(tokenDTO.getUsername());
+        authenticationResponse.setToken(tokenDTO.getToken());
+        authenticationResponse.setExpiresAt(tokenDTO.getExpiresAt());
+
+        return ResponseEntity.ok(authenticationResponse);
     }
 
+    @PostMapping("/authenticate")
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody Credentials credentials) {
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest request) {
+        if (isNullOrEmpty(credentials.getUsername()) || isNullOrEmpty(credentials.getPassword()))
+            throw new MissingCredentialsException(MISSING_CREDENTIALS_MESSAGE);
 
-        Optional<User> optUser = userService.findByUsername(request.getUsername());
-        if (optUser.isEmpty()) {
-            return ResponseEntity.status(401).body("User [" + request.getUsername() + "] not found");
+        if (!userService.isUserValid(credentials))
+            throw new InvalidCredentialsException(INVALID_CREDENTIALS_MESSAGE);
+
+        TokenDTO tokenDTO = tokenService.getByUsername(credentials.getUsername());
+        if (tokenDTO == null) {
+            tokenDTO = tokenService.generateToken(credentials.getUsername());
+        } else if (!isTokenValid(tokenDTO.getExpiresAt())) {
+            throw new ExpiredTokenException(EXPIRED_TOKEN_MESSAGE);
         }
 
-        User user = optUser.get();
-        if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
-            return ResponseEntity.status(401).body("Invalid username or password");
-        }
+        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
+        authenticationResponse.setUsername(tokenDTO.getUsername());
+        authenticationResponse.setToken(tokenDTO.getToken());
+        authenticationResponse.setExpiresAt(tokenDTO.getExpiresAt());
 
-        String token = jwtUtil.generateToken(user.getUsername(), new HashMap<>());
-
-        return ResponseEntity.ok(new LoginResponse(token));
+        return ResponseEntity.ok(authenticationResponse);
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@Valid @RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<?> register(@RequestBody Credentials credentials) {
 
-        Optional<User> existingUser = userService.findByUsername(registerRequest.getUsername());
-        if (existingUser.isPresent()) {
-            return ResponseEntity.badRequest().body("Username already exists");
+        if (isNullOrEmpty(credentials.getUsername()) || isNullOrEmpty(credentials.getPassword()))
+            throw new MissingCredentialsException(MISSING_CREDENTIALS_MESSAGE);
+
+        UserDTO existingUser = userService.findByUsername(credentials.getUsername());
+        if (existingUser != null) {
+            throw new UserAlreadyExistsException(USER_ALREADY_EXISTS_MESSAGE);
         }
 
-        User user = new User();
-        user.setUsername(registerRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        user.setEmail(registerRequest.getEmail());
-        userService.saveUser(user);
-
-        List<UserApplicationProfile> userApplicationProfiles = new ArrayList<>();
-
-        for (Map.Entry<String, String> applicationEntry : registerRequest.getApplications().entrySet()) {
-
-            String applicationName = applicationEntry.getKey();
-            Optional<Application> optApplication = applicationService.findByName(applicationName);
-            if (optApplication.isEmpty()) {
-                return ResponseEntity.status(404).body("Application [" + applicationName + "] not found");
-            }
-
-            String applicationPlanName = applicationEntry.getValue();
-            Optional<Plan> optPlan = planService.findByName(applicationPlanName);
-            if (optPlan.isEmpty()) {
-                return ResponseEntity.status(404).body("Plan [" + applicationPlanName + "] not found");
-            }
-
-            userApplicationProfiles.add(new UserApplicationProfile(user, optApplication.get(), optPlan.get()));
-        }
-
-        user.setApplicationProfiles(userApplicationProfiles);
-        userApplicationProfileService.saveAll(userApplicationProfiles);
-
-        return ResponseEntity.ok(
-                "User [" + user.getUsername()
-                        + "] registered with selected plans: " + registerRequest.getApplications());
+        UserDTO user = userService.saveUser(credentials.getUsername(), credentials.getPassword());
+        return ResponseEntity.ok(buildString(CREATED, SPACE, user.getUsername()));
     }
 }

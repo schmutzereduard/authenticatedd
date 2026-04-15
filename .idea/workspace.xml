@@ -4,12 +4,98 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bcf42d95-ba57-4b46-93c5-8f6a2c9ee735" name="Changes" comment="" />
+    <list default="true" id="bcf42d95-ba57-4b46-93c5-8f6a2c9ee735" name="Changes" comment="code cleanup">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/constants/Constants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/constants/ExceptionConstants.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/TokenDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/UserDTO.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/ExpiredTokenException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/InvalidCredentialsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/InvalidTokenException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/MissingCredentialsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/UserAlreadyExistsException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/mapper/TokenMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/mapper/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/Token.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/TokenRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/TokenService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/utils/StringUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/utils/TokenUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/jdbc.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/AuthenticateddApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/AuthenticateddApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/ApplicationsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/PermissionsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/PlansController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/ProfilesController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/TestController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/UsersController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/AuthenticationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/AuthenticationResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/Credentials.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/LoginResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/RegisterRequest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/jwt/JwtAuthenticationToken.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/jwt/JwtRequestFilter.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/jwt/JwtUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/Application.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/MacroCalculatorProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/Permission.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/Plan.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/PlanPermission.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/UserApplicationProfile.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/ApplicationRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/PermissionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/PlanPermissionRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/PlanRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/UserApplicationProfileRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/security/SecurityConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/security/WebConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/ApplicationService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/CustomUserDetailsService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/PermissionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/PlanPermissionService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/PlanService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/UserApplicationProfileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/resolvedd/authenticatedd/AuthControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/resolvedd/authenticatedd/AuthControllerTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/resolvedd/authenticatedd/PlansControllerTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/com/resolvedd/authenticatedd/ProfilesControllerTest.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;schmutzereduard&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/schmutzereduard/authenticatedd.git&quot;,
+    &quot;accountId&quot;: &quot;aa6bb21c-ebf0-4ff3-bbe2-047e6698bf52&quot;
+  }
+}</component>
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
@@ -17,22 +103,183 @@
       </MavenGeneralSettings>
     </option>
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="ProjectErrors" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2pXG2Ycau65BTaasY2d8yKSOOlV" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
-    <option name="abbreviatePackageNames" value="true" />
+    <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
+    <option name="showScratchesAndConsoles" value="false" />
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.AUTH'EDD.executor": "Debug",
+    "Application.AuthenticateddApplication.executor": "Run",
+    "JUnit.AuthControllerTest and 2 more.executor": "Run",
+    "JUnit.AuthControllerTest.authenticateFail.executor": "Run",
+    "JUnit.AuthControllerTest.authenticateSuccess.executor": "Debug",
+    "JUnit.AuthControllerTest.authenticateTokenExpired.executor": "Run",
+    "JUnit.AuthControllerTest.authenticateUserSuccess.executor": "Run",
+    "JUnit.AuthControllerTest.executor": "Run",
+    "JUnit.AuthControllerTest.isAuthorizedFail.executor": "Run",
+    "JUnit.AuthControllerTest.isAuthorizedSuccess.executor": "Run",
+    "JUnit.AuthControllerTest.registerApplicationNotFound.executor": "Run",
+    "JUnit.AuthControllerTest.registerSuccess.executor": "Run",
+    "JUnit.AuthControllerTest.registerUserAlreadyExists.executor": "Run",
+    "JUnit.AuthControllerTest.testAuthenticateApplicationNotFound.executor": "Run",
+    "JUnit.AuthControllerTest.testAuthenticateUserFail.executor": "Run",
+    "JUnit.AuthControllerTest.testAuthenticateUserNotFound.executor": "Run",
+    "JUnit.AuthControllerTest.testAuthenticateUserSuccess.executor": "Run",
+    "JUnit.AuthControllerTest.testRegisterUserAlreadyExists.executor": "Run",
+    "JUnit.AuthControllerTest.testRegisterUserDuplicateUsername.executor": "Run",
+    "JUnit.AuthControllerTest.testRegisterUserMissingApplication.executor": "Run",
+    "JUnit.AuthControllerTest.testRegisterUserSuccess.executor": "Run",
+    "JUnit.PlansControllerTest.executor": "Run",
+    "JUnit.PlansControllerTest.testUpgradePlanPlanNotFound.executor": "Run",
+    "JUnit.PlansControllerTest.testUpgradePlanSuccess.executor": "Run",
+    "JUnit.PlansControllerTest.upgradePlanSuccess.executor": "Run",
+    "JUnit.PlansControllerTest.upgradePlanUserNotFound.executor": "Run",
+    "JUnit.ProfilesControllerTest.executor": "Run",
+    "JUnit.ProfilesControllerTest.getUserMissingApp.executor": "Run",
+    "JUnit.ProfilesControllerTest.getUserMissingProfile.executor": "Run",
+    "JUnit.ProfilesControllerTest.getUserProfileMissingUser.executor": "Run",
+    "JUnit.ProfilesControllerTest.getUserProfileSuccess.executor": "Run",
+    "JUnit.UsersControllerTest.executor": "Run",
+    "JUnit.UsersControllerTest.testAssignRoleApplicationNotFound.executor": "Run",
+    "JUnit.UsersControllerTest.testAssignRoleRoleNotFound.executor": "Run",
+    "JUnit.UsersControllerTest.testAssignRoleSuccess.executor": "Run",
+    "JUnit.UsersControllerTest.testAssignRoleUserNotFound.executor": "Run",
+    "JUnit.UsersControllerTest.testAssignRoleWithAdminRole.executor": "Run",
+    "JUnit.UsersControllerTest.testAssignRoleWithoutAdminRole.executor": "Run",
+    "JUnit.com.resolvedd.authenticatedd in authenticatedd.executor": "Run",
+    "Maven.authenticatedd [clean].executor": "Run",
+    "Maven.authenticatedd [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/APPS/authenticatedd/pom.xml"
+    "last_opened_file_path": "C:/APPS/authenticatedd/src/main/java/com/resolvedd/authenticatedd/repository",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "preferences.lookFeel"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\APPS\authenticatedd\src\main\java\com\resolvedd\authenticatedd\repository" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.AUTH'EDD">
+    <configuration name="AUTH'EDD" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthenticateddApplication" />
+      <module name="authenticatedd" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthControllerTest" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="authenticatedd" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.resolvedd.authenticatedd.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
+      <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthControllerTest.authenticateTokenExpired" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="authenticatedd" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.resolvedd.authenticatedd.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
+      <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
+      <option name="METHOD_NAME" value="authenticateTokenExpired" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthControllerTest.isAuthorizedSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="authenticatedd" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.resolvedd.authenticatedd.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
+      <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
+      <option name="METHOD_NAME" value="isAuthorizedSuccess" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthControllerTest.registerSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="authenticatedd" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.resolvedd.authenticatedd.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
+      <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
+      <option name="METHOD_NAME" value="registerSuccess" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthControllerTest.registerUserAlreadyExists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="authenticatedd" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.resolvedd.authenticatedd.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
+      <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
+      <option name="METHOD_NAME" value="registerUserAlreadyExists" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.AUTH'EDD" />
+      <item itemvalue="JUnit.AuthControllerTest.isAuthorizedSuccess" />
+      <item itemvalue="JUnit.AuthControllerTest" />
+      <item itemvalue="JUnit.AuthControllerTest.authenticateTokenExpired" />
+      <item itemvalue="JUnit.AuthControllerTest.registerSuccess" />
+      <item itemvalue="JUnit.AuthControllerTest.registerUserAlreadyExists" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="JUnit.AuthControllerTest" />
+        <item itemvalue="JUnit.AuthControllerTest.isAuthorizedSuccess" />
+        <item itemvalue="JUnit.AuthControllerTest.registerUserAlreadyExists" />
+        <item itemvalue="JUnit.AuthControllerTest.registerSuccess" />
+        <item itemvalue="JUnit.AuthControllerTest.authenticateTokenExpired" />
+      </list>
+    </recent_temporary>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -42,6 +289,129 @@
       <option name="presentableId" value="Default" />
       <updated>1732904800007</updated>
     </task>
+    <task id="LOCAL-00001" summary="First commit">
+      <option name="closed" value="true" />
+      <created>1732905078216</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1732905078216</updated>
+    </task>
+    <task id="LOCAL-00002" summary="some preliminary work (generates token)">
+      <option name="closed" value="true" />
+      <created>1733168247950</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1733168247950</updated>
+    </task>
+    <task id="LOCAL-00003" summary="lots of updated&#10;bug fix&#10;coming closer to desired structure&#10;must do more tests&#10;&#10;Closes #1">
+      <option name="closed" value="true" />
+      <created>1733332934546</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1733332934546</updated>
+    </task>
+    <task id="LOCAL-00004" summary="added registration&#10;update spring security authorities&#10;updated controllers&#10;&#10;Closes #2">
+      <option name="closed" value="true" />
+      <created>1733424111703</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1733424111703</updated>
+    </task>
+    <task id="LOCAL-00005" summary="added some mockito tests for authcontroller">
+      <option name="closed" value="true" />
+      <created>1733512464261</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1733512464261</updated>
+    </task>
+    <task id="LOCAL-00006" summary="added more tests&#10;updated logic&#10;set up future logic for the ecosystem">
+      <option name="closed" value="true" />
+      <created>1733597769520</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1733597769520</updated>
+    </task>
+    <task id="LOCAL-00007" summary="changed port&#10;added webconfig">
+      <option name="closed" value="true" />
+      <created>1733856449538</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1733856449538</updated>
+    </task>
+    <task id="LOCAL-00008" summary="updated userappplans to userappprofile&#10;created profile for macrocalculator app&#10;created profile controller&#10;updated token logic (smaller token and now login response includes username)">
+      <option name="closed" value="true" />
+      <created>1734026587911</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1734026587911</updated>
+    </task>
+    <task id="LOCAL-00009" summary="added tests for profilescontroller&#10;&#10;Closes #4">
+      <option name="closed" value="true" />
+      <created>1734028104069</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1734028104069</updated>
+    </task>
+    <task id="LOCAL-00010" summary="updated tests&#10;code cleanup">
+      <option name="closed" value="true" />
+      <created>1734547482566</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1734547482566</updated>
+    </task>
+    <task id="LOCAL-00011" summary="updated tests&#10;updated securtiy config&#10;updated authenticate method&#10;updated request filter&#10;updated cors">
+      <option name="closed" value="true" />
+      <created>1734634316004</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1734634316004</updated>
+    </task>
+    <task id="LOCAL-00012" summary="code cleanup">
+      <option name="closed" value="true" />
+      <created>1734634381091</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1734634381091</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="First commit" />
+    <MESSAGE value="some preliminary work (generates token)" />
+    <MESSAGE value="lots of updated&#10;bug fix&#10;coming closer to desired structure&#10;must do more tests&#10;&#10;Closes #1" />
+    <MESSAGE value="added registration&#10;update spring security authorities&#10;updated controllers&#10;&#10;Closes #2" />
+    <MESSAGE value="added some mockito tests for authcontroller" />
+    <MESSAGE value="added more tests&#10;updated logic&#10;set up future logic for the ecosystem" />
+    <MESSAGE value="changed port&#10;added webconfig" />
+    <MESSAGE value="updated userappplans to userappprofile&#10;created profile for macrocalculator app&#10;created profile controller&#10;updated token logic (smaller token and now login response includes username)" />
+    <MESSAGE value="added tests for profilescontroller&#10;&#10;Closes #4" />
+    <MESSAGE value="updated tests&#10;code cleanup" />
+    <MESSAGE value="updated tests&#10;updated securtiy config&#10;updated authenticate method&#10;updated request filter&#10;updated cors" />
+    <MESSAGE value="code cleanup" />
+    <option name="LAST_COMMIT_MESSAGE" value="code cleanup" />
   </component>
 </project>
