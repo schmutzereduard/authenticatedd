@@ -2,6 +2,7 @@ package com.resolvedd.authenticatedd.service;
 
 import com.resolvedd.authenticatedd.dto.Credentials;
 import com.resolvedd.authenticatedd.dto.UserDTO;
+import com.resolvedd.authenticatedd.exception.UserNotFoundException;
 import com.resolvedd.authenticatedd.mapper.UserMapper;
 import com.resolvedd.authenticatedd.model.User;
 import com.resolvedd.authenticatedd.repository.UserRepository;
@@ -9,12 +10,18 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import static com.resolvedd.authenticatedd.constants.ExceptionConstants.USER_NOT_FOUND_MESSAGE;
+
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserMapper userMapper;
     private final UserRepository userRepository;
+
+    public UserDTO findById(Long id) {
+        return userMapper.toDTO(userRepository.findById(id).orElseThrow(() -> new UserNotFoundException(USER_NOT_FOUND_MESSAGE)));
+    }
 
     public UserDTO findByUsername(String username) {
         return userMapper.toDTO(userRepository.findByUsername(username));

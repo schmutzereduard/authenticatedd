@@ -7,12 +7,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import static com.resolvedd.authenticatedd.constants.Constants.CREATED;
-import static com.resolvedd.authenticatedd.constants.Constants.SPACE;
+import static com.resolvedd.authenticatedd.constants.Constants.*;
 import static com.resolvedd.authenticatedd.constants.ExceptionConstants.*;
 import static com.resolvedd.authenticatedd.utils.StringUtils.buildString;
 import static com.resolvedd.authenticatedd.utils.StringUtils.isNullOrEmpty;
-import static com.resolvedd.authenticatedd.utils.TokenUtils.*;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController
@@ -26,21 +24,11 @@ public class AuthController {
     @GetMapping("/isAuthorized")
     public ResponseEntity<AuthenticationResponse> isAuthorized(@RequestHeader(AUTHORIZATION) String authHeader) {
 
-        String token = getToken(authHeader);
-        if (isNullOrEmpty(token))
-            throw new InvalidTokenException(INVALID_TOKEN_MESSAGE);
-
-        TokenDTO tokenDTO = tokenService.getByToken(token);
-        if (tokenDTO == null)
-            throw new InvalidTokenException(INVALID_TOKEN_MESSAGE);
-
-        if (!isTokenValid(tokenDTO.getExpiresAt()))
-            throw new ExpiredTokenException(EXPIRED_TOKEN_MESSAGE);
+        TokenDTO validToken = tokenService.isValidToken(authHeader);
 
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        authenticationResponse.setUsername(tokenDTO.getUsername());
-        authenticationResponse.setToken(tokenDTO.getToken());
-        authenticationResponse.setExpiresAt(tokenDTO.getExpiresAt());
+        authenticationResponse.setUsername(validToken.getUsername());
+        authenticationResponse.setToken(validToken.getToken());
 
         return ResponseEntity.ok(authenticationResponse);
     }
@@ -57,14 +45,13 @@ public class AuthController {
         TokenDTO tokenDTO = tokenService.getByUsername(credentials.getUsername());
         if (tokenDTO == null) {
             tokenDTO = tokenService.generateToken(credentials.getUsername());
-        } else if (!isTokenValid(tokenDTO.getExpiresAt())) {
-            throw new ExpiredTokenException(EXPIRED_TOKEN_MESSAGE);
+        } else  {
+            tokenDTO = tokenService.isValidToken(tokenDTO.getToken());
         }
 
         AuthenticationResponse authenticationResponse = new AuthenticationResponse();
         authenticationResponse.setUsername(tokenDTO.getUsername());
         authenticationResponse.setToken(tokenDTO.getToken());
-        authenticationResponse.setExpiresAt(tokenDTO.getExpiresAt());
 
         return ResponseEntity.ok(authenticationResponse);
     }

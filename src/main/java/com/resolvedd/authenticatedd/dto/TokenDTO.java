@@ -9,5 +9,4 @@ public class TokenDTO {
 
     private String username;
     private String token;
-    private long expiresAt;
 }

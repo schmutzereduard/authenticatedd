@@ -4,70 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bcf42d95-ba57-4b46-93c5-8f6a2c9ee735" name="Changes" comment="code cleanup">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/constants/Constants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/constants/ExceptionConstants.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/TokenDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/UserDTO.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/ExpiredTokenException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/InvalidCredentialsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/InvalidTokenException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/MissingCredentialsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/UserAlreadyExistsException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/mapper/TokenMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/mapper/UserMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/Token.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/TokenRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/TokenService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/utils/StringUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/utils/TokenUtils.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/resources/jdbc.properties" afterDir="false" />
+    <list default="true" id="bcf42d95-ba57-4b46-93c5-8f6a2c9ee735" name="Changes" comment="simplified alot of logic,&#10;pom cleanup,&#10;code cleanup,&#10;tests refactor,&#10;general refactor">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/UserNotFoundException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/security/JwtTokenUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/AuthenticateddApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/AuthenticateddApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/ApplicationsController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/constants/ExceptionConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/constants/ExceptionConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/PermissionsController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/PlansController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/ProfilesController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/TestController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/UsersController.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/AuthenticationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/AuthenticationResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/LoginRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/Credentials.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/LoginResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/RegisterRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/jwt/JwtAuthenticationToken.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/jwt/JwtRequestFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/jwt/JwtUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/Application.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/MacroCalculatorProfile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/Permission.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/Plan.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/PlanPermission.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/UserApplicationProfile.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/ApplicationRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/PermissionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/PlanPermissionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/PlanRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/UserApplicationProfileRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/UserRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/security/SecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/security/WebConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/ApplicationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/CustomUserDetailsService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/PermissionService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/PlanPermissionService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/PlanService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/UserApplicationProfileService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/TokenDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/TokenDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/UserDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/UserDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/ExpiredTokenException.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/GlobalExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/Token.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/model/Token.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/TokenService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/utils/TokenUtils.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/jdbc.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/jdbc.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/com/resolvedd/authenticatedd/AuthControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/resolvedd/authenticatedd/AuthControllerTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/resolvedd/authenticatedd/PlansControllerTest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/resolvedd/authenticatedd/ProfilesControllerTest.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -110,7 +67,6 @@
   &quot;associatedIndex&quot;: 3
 }</component>
   <component name="ProjectId" id="2pXG2Ycau65BTaasY2d8yKSOOlV" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="showExcludedFiles" value="false" />
     <option name="showLibraryContents" value="true" />
@@ -120,9 +76,10 @@
   "keyToString": {
     "Application.AUTH'EDD.executor": "Debug",
     "Application.AuthenticateddApplication.executor": "Run",
+    "Application.JwtTokenUtil.executor": "Run",
     "JUnit.AuthControllerTest and 2 more.executor": "Run",
     "JUnit.AuthControllerTest.authenticateFail.executor": "Run",
-    "JUnit.AuthControllerTest.authenticateSuccess.executor": "Debug",
+    "JUnit.AuthControllerTest.authenticateSuccess.executor": "Run",
     "JUnit.AuthControllerTest.authenticateTokenExpired.executor": "Run",
     "JUnit.AuthControllerTest.authenticateUserSuccess.executor": "Run",
     "JUnit.AuthControllerTest.executor": "Run",
@@ -161,12 +118,20 @@
     "Maven.authenticatedd [install].executor": "Run",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.git.unshallow": "true",
+    "RunOnceActivity.typescript.service.memoryLimit.init": "true",
+    "codeWithMe.voiceChat.enabledByDefault": "false",
     "git-widget-placeholder": "master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/APPS/authenticatedd/src/main/java/com/resolvedd/authenticatedd/repository",
+    "node.js.detected.package.jshint": "true",
+    "node.js.selected.package.jshint": "",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.0",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "preferences.lookFeel"
+    "settings.editor.selected.configurable": "advanced.settings"
   }
 }]]></component>
   <component name="RecentsManager">
@@ -192,8 +157,39 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
       <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
-      <option name="METHOD_NAME" value="" />
       <option name="TEST_OBJECT" value="class" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthControllerTest.authenticateFail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="authenticatedd" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.resolvedd.authenticatedd.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
+      <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
+      <option name="METHOD_NAME" value="authenticateFail" />
+      <option name="TEST_OBJECT" value="method" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AuthControllerTest.authenticateSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+      <module name="authenticatedd" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.resolvedd.authenticatedd.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
+      <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
+      <option name="METHOD_NAME" value="authenticateSuccess" />
+      <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -214,7 +210,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="AuthControllerTest.isAuthorizedSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
+    <configuration name="AuthControllerTest.isAuthorizedFail" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
       <module name="authenticatedd" />
       <extension name="coverage">
         <pattern>
@@ -224,39 +220,7 @@
       </extension>
       <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
       <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
-      <option name="METHOD_NAME" value="isAuthorizedSuccess" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AuthControllerTest.registerSuccess" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="authenticatedd" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.resolvedd.authenticatedd.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
-      <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
-      <option name="METHOD_NAME" value="registerSuccess" />
-      <option name="TEST_OBJECT" value="method" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="AuthControllerTest.registerUserAlreadyExists" type="JUnit" factoryName="JUnit" temporary="true" nameIsGenerated="true">
-      <module name="authenticatedd" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="com.resolvedd.authenticatedd.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <option name="PACKAGE_NAME" value="com.resolvedd.authenticatedd" />
-      <option name="MAIN_CLASS_NAME" value="com.resolvedd.authenticatedd.AuthControllerTest" />
-      <option name="METHOD_NAME" value="registerUserAlreadyExists" />
+      <option name="METHOD_NAME" value="isAuthorizedFail" />
       <option name="TEST_OBJECT" value="method" />
       <method v="2">
         <option name="Make" enabled="true" />
@@ -264,21 +228,29 @@
     </configuration>
     <list>
       <item itemvalue="Application.AUTH'EDD" />
-      <item itemvalue="JUnit.AuthControllerTest.isAuthorizedSuccess" />
+      <item itemvalue="JUnit.AuthControllerTest.authenticateFail" />
+      <item itemvalue="JUnit.AuthControllerTest.authenticateSuccess" />
+      <item itemvalue="JUnit.AuthControllerTest.isAuthorizedFail" />
       <item itemvalue="JUnit.AuthControllerTest" />
       <item itemvalue="JUnit.AuthControllerTest.authenticateTokenExpired" />
-      <item itemvalue="JUnit.AuthControllerTest.registerSuccess" />
-      <item itemvalue="JUnit.AuthControllerTest.registerUserAlreadyExists" />
     </list>
     <recent_temporary>
       <list>
         <item itemvalue="JUnit.AuthControllerTest" />
-        <item itemvalue="JUnit.AuthControllerTest.isAuthorizedSuccess" />
-        <item itemvalue="JUnit.AuthControllerTest.registerUserAlreadyExists" />
-        <item itemvalue="JUnit.AuthControllerTest.registerSuccess" />
         <item itemvalue="JUnit.AuthControllerTest.authenticateTokenExpired" />
+        <item itemvalue="JUnit.AuthControllerTest.authenticateFail" />
+        <item itemvalue="JUnit.AuthControllerTest.authenticateSuccess" />
+        <item itemvalue="JUnit.AuthControllerTest.isAuthorizedFail" />
       </list>
     </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-a203e0a19954-intellij.indexing.shared.core-IU-262.10315.125" />
+        <option value="bundled-js-predefined-d6986cc7102b-4abd2a77f808-JavaScript-IU-262.10315.125" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -385,8 +357,19 @@
       <option name="project" value="LOCAL" />
       <updated>1734634381091</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="simplified alot of logic,&#10;pom cleanup,&#10;code cleanup,&#10;tests refactor,&#10;general refactor">
+      <option name="closed" value="true" />
+      <created>1776259533446</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1776259533446</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
     <option name="TAB_STATES">
@@ -412,6 +395,7 @@
     <MESSAGE value="updated tests&#10;code cleanup" />
     <MESSAGE value="updated tests&#10;updated securtiy config&#10;updated authenticate method&#10;updated request filter&#10;updated cors" />
     <MESSAGE value="code cleanup" />
-    <option name="LAST_COMMIT_MESSAGE" value="code cleanup" />
+    <MESSAGE value="simplified alot of logic,&#10;pom cleanup,&#10;code cleanup,&#10;tests refactor,&#10;general refactor" />
+    <option name="LAST_COMMIT_MESSAGE" value="simplified alot of logic,&#10;pom cleanup,&#10;code cleanup,&#10;tests refactor,&#10;general refactor" />
   </component>
 </project>

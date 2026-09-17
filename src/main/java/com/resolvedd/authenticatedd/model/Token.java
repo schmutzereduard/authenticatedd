@@ -15,5 +15,4 @@ public class Token {
     @Id
     private String username;
     private String token;
-    private long expiresAt;
 }
