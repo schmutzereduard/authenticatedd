@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import static com.resolvedd.authenticatedd.constants.Constants.*;
 import static com.resolvedd.authenticatedd.constants.ExceptionConstants.*;
 import static com.resolvedd.authenticatedd.utils.StringUtils.buildString;
-import static com.resolvedd.authenticatedd.utils.StringUtils.isNullOrEmpty;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @RestController

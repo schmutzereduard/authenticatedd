@@ -1,6 +1,5 @@
 package com.resolvedd.authenticatedd.service;
 
-import com.resolvedd.authenticatedd.dto.Credentials;
 import com.resolvedd.authenticatedd.dto.UserDTO;
 import com.resolvedd.authenticatedd.exception.InvalidCredentialsException;
 import com.resolvedd.authenticatedd.exception.UserAlreadyExistsException;

@@ -4,20 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="bcf42d95-ba57-4b46-93c5-8f6a2c9ee735" name="Changes" comment="updated to latest spring,&#10;updated tests,&#10;updated Token generation and validation logic,&#10;switched to MariaDB">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/AuthorizationResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/ErrorDTO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/constants/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/constants/Constants.java" afterDir="false" />
+    <list default="true" id="bcf42d95-ba57-4b46-93c5-8f6a2c9ee735" name="Changes" comment="authorization logic updates,&#10;tests updates">
       <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/constants/ExceptionConstants.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/constants/ExceptionConstants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/AuthenticationResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/AuthenticationResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/AuthorizationResponse.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/dto/Credentials.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/GlobalExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/GlobalExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/TokenRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/TokenRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/exception/MissingCredentialsException.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/TokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/TokenService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/com/resolvedd/authenticatedd/AuthControllerTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/com/resolvedd/authenticatedd/AuthControllerTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -366,7 +361,15 @@
       <option name="project" value="LOCAL" />
       <updated>1789651287175</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="authorization logic updates,&#10;tests updates">
+      <option name="closed" value="true" />
+      <created>1789841801636</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1789841801637</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -398,17 +401,7 @@
     <MESSAGE value="code cleanup" />
     <MESSAGE value="simplified alot of logic,&#10;pom cleanup,&#10;code cleanup,&#10;tests refactor,&#10;general refactor" />
     <MESSAGE value="updated to latest spring,&#10;updated tests,&#10;updated Token generation and validation logic,&#10;switched to MariaDB" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated to latest spring,&#10;updated tests,&#10;updated Token generation and validation logic,&#10;switched to MariaDB" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/main/java/com/resolvedd/authenticatedd/controller/AuthController.java</url>
-          <line>27</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
+    <MESSAGE value="authorization logic updates,&#10;tests updates" />
+    <option name="LAST_COMMIT_MESSAGE" value="authorization logic updates,&#10;tests updates" />
   </component>
 </project>

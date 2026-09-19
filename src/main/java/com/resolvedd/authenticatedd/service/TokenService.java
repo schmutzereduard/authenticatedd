@@ -7,7 +7,6 @@ import com.resolvedd.authenticatedd.mapper.TokenMapper;
 import com.resolvedd.authenticatedd.model.Token;
 import com.resolvedd.authenticatedd.repository.TokenRepository;
 import com.resolvedd.authenticatedd.security.JwtTokenUtil;
-import com.resolvedd.authenticatedd.utils.StringUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
