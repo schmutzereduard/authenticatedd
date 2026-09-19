@@ -4,9 +4,11 @@ import com.resolvedd.authenticatedd.model.Token;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface TokenRepository extends JpaRepository<Token, String> {
 
-    Token findByUsername(String username);
-    Token findByToken(String token);
+    Optional<Token> findByUsername(String username);
+    Optional<Token> findByToken(String token);
 }

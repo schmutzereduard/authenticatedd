@@ -7,6 +7,7 @@ import com.resolvedd.authenticatedd.mapper.TokenMapper;
 import com.resolvedd.authenticatedd.model.Token;
 import com.resolvedd.authenticatedd.repository.TokenRepository;
 import com.resolvedd.authenticatedd.security.JwtTokenUtil;
+import com.resolvedd.authenticatedd.utils.StringUtils;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +15,8 @@ import org.springframework.stereotype.Service;
 import static com.resolvedd.authenticatedd.constants.Constants.BEARER;
 import static com.resolvedd.authenticatedd.constants.Constants.EMPTY;
 import static com.resolvedd.authenticatedd.constants.ExceptionConstants.INVALID_TOKEN_MESSAGE;
+import static com.resolvedd.authenticatedd.constants.ExceptionConstants.MISSING_TOKEN_MESSAGE;
+import static com.resolvedd.authenticatedd.utils.StringUtils.isNullOrEmpty;
 
 @Service
 @RequiredArgsConstructor
@@ -25,11 +28,11 @@ public class TokenService {
     private final UserService userService;
 
     public TokenDTO getByUsername(String username) {
-        return tokenMapper.toDTO(tokenRepository.findByUsername(username));
+        return tokenMapper.toDTO(tokenRepository.findByUsername(username).orElse(null));
     }
 
     public TokenDTO getByToken(String token) {
-        return tokenMapper.toDTO(tokenRepository.findByToken(token));
+        return tokenMapper.toDTO(tokenRepository.findByToken(token).orElseThrow(() -> new InvalidTokenException(INVALID_TOKEN_MESSAGE)));
     }
 
     public TokenDTO generateToken(String username) {
@@ -46,17 +49,21 @@ public class TokenService {
         return tokenMapper.toDTO(tokenRepository.save(token));
     }
 
-    public TokenDTO isValidToken(String token) {
+    public Long isTokenValid(String token) {
 
-        token = token.startsWith(BEARER) ? token.replace(BEARER, EMPTY).trim() : token;
+        if (isNullOrEmpty(token))
+            throw new InvalidTokenException(MISSING_TOKEN_MESSAGE);
+
+        token = token.startsWith(BEARER) ? token.replaceFirst(BEARER, EMPTY).trim() : token;
+
         Claims parsedToken = jwtTokenUtil.parseToken(token);
         long userId = Long.parseLong(parsedToken.getSubject());
         UserDTO userDTO = userService.findById(userId);
         TokenDTO tokenDTO = getByToken(token);
 
-        if (userId != userDTO.getId() || !tokenDTO.getUsername().equals(userDTO.getUsername()))
+        if (!tokenDTO.getUsername().equals(userDTO.getUsername()))
             throw new InvalidTokenException(INVALID_TOKEN_MESSAGE);
 
-        return tokenDTO;
+        return userId;
     }
 }

@@ -3,6 +3,7 @@ package com.resolvedd.authenticatedd.controller;
 import com.resolvedd.authenticatedd.dto.*;
 import com.resolvedd.authenticatedd.exception.*;
 import com.resolvedd.authenticatedd.service.*;
+import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,52 +23,36 @@ public class AuthController {
     private final TokenService tokenService;
 
     @GetMapping("/isAuthorized")
-    public ResponseEntity<AuthenticationResponse> isAuthorized(@RequestHeader(AUTHORIZATION) String authHeader) {
+    public ResponseEntity<Long> isAuthorized(@RequestHeader(AUTHORIZATION) String bearerToken) {
 
-        TokenDTO validToken = tokenService.isValidToken(authHeader);
-
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        authenticationResponse.setUsername(validToken.getUsername());
-        authenticationResponse.setToken(validToken.getToken());
-
-        return ResponseEntity.ok(authenticationResponse);
+        return ResponseEntity.ok(tokenService.isTokenValid(bearerToken));
     }
 
     @PostMapping("/authenticate")
-    public ResponseEntity<AuthenticationResponse> authenticate(@RequestBody Credentials credentials) {
+    public ResponseEntity<AuthenticationResponse> authenticate(@RequestHeader(AUTHORIZATION) String basicAuthHeader) {
 
-        if (isNullOrEmpty(credentials.getUsername()) || isNullOrEmpty(credentials.getPassword()))
-            throw new MissingCredentialsException(MISSING_CREDENTIALS_MESSAGE);
-
-        if (!userService.isUserValid(credentials))
+        String username = userService.isUserValid(basicAuthHeader);
+        if (username == null)
             throw new InvalidCredentialsException(INVALID_CREDENTIALS_MESSAGE);
 
-        TokenDTO tokenDTO = tokenService.getByUsername(credentials.getUsername());
+        TokenDTO tokenDTO = tokenService.getByUsername(username);
         if (tokenDTO == null) {
-            tokenDTO = tokenService.generateToken(credentials.getUsername());
+            tokenDTO = tokenService.generateToken(username);
         } else  {
-            tokenDTO = tokenService.isValidToken(tokenDTO.getToken());
+            try {
+                tokenService.isTokenValid(tokenDTO.getToken());
+            } catch (ExpiredJwtException e) {
+                tokenDTO = tokenService.generateToken(username);
+            }
         }
 
-        AuthenticationResponse authenticationResponse = new AuthenticationResponse();
-        authenticationResponse.setUsername(tokenDTO.getUsername());
-        authenticationResponse.setToken(tokenDTO.getToken());
-
-        return ResponseEntity.ok(authenticationResponse);
+        return ResponseEntity.ok(new AuthenticationResponse(tokenDTO.getUsername(), tokenDTO.getToken()));
     }
 
     @PostMapping("/register")
-    public ResponseEntity<?> register(@RequestBody Credentials credentials) {
+    public ResponseEntity<?> register(@RequestHeader(AUTHORIZATION) String basicAuthHeader) {
 
-        if (isNullOrEmpty(credentials.getUsername()) || isNullOrEmpty(credentials.getPassword()))
-            throw new MissingCredentialsException(MISSING_CREDENTIALS_MESSAGE);
-
-        UserDTO existingUser = userService.findByUsername(credentials.getUsername());
-        if (existingUser != null) {
-            throw new UserAlreadyExistsException(USER_ALREADY_EXISTS_MESSAGE);
-        }
-
-        UserDTO user = userService.saveUser(credentials.getUsername(), credentials.getPassword());
+        UserDTO user = userService.registerUser(basicAuthHeader);
         return ResponseEntity.ok(buildString(CREATED, SPACE, user.getUsername()));
     }
 }
