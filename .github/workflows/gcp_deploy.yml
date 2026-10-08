@@ -41,5 +41,5 @@ jobs:
           username: ${{ vars.GCP_USERNAME }}
           key: ${{ secrets.GCP_SSH_KEY }}
           script: |
-            sudo systemctl restart auth_service.service
-            sudo systemctl status auth_service.service --no-pager
+            sudo systemctl restart auth-service.service
+            sudo systemctl status auth-service.service --no-pager
