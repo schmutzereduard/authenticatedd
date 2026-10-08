@@ -27,7 +27,7 @@ jobs:
         uses: appleboy/scp-action@v0.1.7
         with:
           host: ${{ vars.GCP_HOST }}
-          username: ${{ vars  .GCP_USERNAME }}
+          username: ${{ vars.GCP_USERNAME }}
           key: ${{ secrets.GCP_SSH_KEY }}
           source: "target/*.jar"            # For Maven (or build/libs/*.jar for Gradle)
           target: "/home/${{ vars.GCP_USERNAME }}/"
